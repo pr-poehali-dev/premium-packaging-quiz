@@ -37,13 +37,10 @@ const BrandSection = () => {
           </span>
           <div className="gold-line w-16 mx-auto mb-8" />
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-gold-gradient leading-tight mb-6">
-            СОЗДАНА, ЧТОБЫ ПОДНЯТЬ
+            ВАШ ПРОДУКТ В ЭТОЙ БАНКЕ —
             <br />
-            ВАШ БРЕНД
+            ОН УЖЕ ПРЕМИУМ
           </h2>
-          <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto">
-            Ваш продукт в этой банке — он уже премиум
-          </p>
         </div>
 
         <div className="relative mb-20">
