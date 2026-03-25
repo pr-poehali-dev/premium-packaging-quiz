@@ -25,7 +25,7 @@ const Footer = () => {
             <span className="text-gold-gradient font-display text-2xl font-bold tracking-widest block mb-3">
               ALUMINIUM ELITE
             </span>
-            <p className="text-muted-foreground text-sm">Packaging as Status</p>
+            <p className="text-muted-foreground text-sm">Упаковка как статус</p>
           </div>
 
           <div className="flex flex-col items-start md:items-center gap-3">
@@ -43,9 +43,9 @@ const Footer = () => {
 
           <div className="md:text-right">
             <p className="text-muted-foreground text-sm italic leading-relaxed">
-              Preferred choice of premium
+              Предпочтительный выбор
               <br />
-              beverage brands
+              премиальных брендов напитков
             </p>
           </div>
         </div>

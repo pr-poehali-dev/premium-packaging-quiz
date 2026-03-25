@@ -2,39 +2,39 @@ import Icon from "@/components/ui/icon";
 
 const products = [
   {
-    name: "Sleek 250ml",
+    name: "Слим 250мл",
     volume: "250 мл",
     popular: false,
     height: "133.2 мм",
     diameter: "53 мм",
     wall: "0.10 мм",
-    material: "Food-grade Aluminium",
+    material: "Пищевой алюминий",
     coating: "BPA-NI внутреннее покрытие",
     bestFor: "Энергетики, тоники, функциональные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Zap",
   },
   {
-    name: "Standard 330ml",
+    name: "Стандарт 330мл",
     volume: "330 мл",
     popular: true,
     height: "115.2 мм",
     diameter: "66.3 мм",
     wall: "0.10 мм",
-    material: "Food-grade Aluminium",
+    material: "Пищевой алюминий",
     coating: "BPA-NI внутреннее покрытие",
     bestFor: "Пиво, сидр, газированные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Star",
   },
   {
-    name: "Large 500ml",
-    volume: "500 мл",
+    name: "Крупный 450мл",
+    volume: "450 мл",
     popular: false,
-    height: "168 мм",
+    height: "149.9 мм",
     diameter: "66.3 мм",
-    wall: "0.11 мм",
-    material: "Food-grade Aluminium",
+    wall: "0.10 мм",
+    material: "Пищевой алюминий",
     coating: "BPA-NI внутреннее покрытие",
     bestFor: "Пиво, коктейли, лимонады",
     colors: "4 базовых + полная кастомизация",
@@ -43,9 +43,9 @@ const products = [
 ];
 
 const badges = [
-  { label: "BPA-NI Coating", icon: "ShieldCheck" },
-  { label: "Food-Grade Aluminium", icon: "Atom" },
-  { label: "Compatible with Standard Filling Lines", icon: "Settings" },
+  { label: "BPA-NI покрытие", icon: "ShieldCheck" },
+  { label: "Пищевой алюминий", icon: "Atom" },
+  { label: "Совместимо со стандартными линиями розлива", icon: "Settings" },
   { label: "ISO 9001:2015", icon: "Award" },
 ];
 
@@ -65,7 +65,7 @@ const CatalogSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="uppercase tracking-[0.3em] text-xs text-[var(--gold)] mb-4 block">
-            PRODUCT CATALOG
+            КАТАЛОГ ПРОДУКЦИИ
           </span>
           <div className="gold-line w-16 mx-auto mb-8" />
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-gold-gradient leading-tight mb-6">
@@ -85,7 +85,7 @@ const CatalogSection = () => {
               <div className="relative h-56 flex items-center justify-center bg-gradient-to-b from-[rgba(201,168,76,0.06)] to-transparent">
                 {product.popular && (
                   <div className="absolute top-4 right-4 z-10 btn-gold px-3 py-1 rounded text-[10px]">
-                    POPULAR
+                    ХИТПРОДАЖ
                   </div>
                 )}
                 <div className="relative flex flex-col items-center justify-center">

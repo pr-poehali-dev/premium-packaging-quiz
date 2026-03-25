@@ -20,7 +20,7 @@ const HeroSection = () => {
       <div className="absolute inset-0">
         <img
           src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/4a3b77aa-6ef9-4a88-a0e8-575ceaceb674.jpg"
-          alt="Premium aluminum cans"
+          alt="Премиальные алюминиевые банки"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--obsidian)] via-[var(--obsidian)]/80 to-[var(--obsidian)]/40" />
@@ -34,7 +34,7 @@ const HeroSection = () => {
           className="opacity-0 animate-fade-up uppercase tracking-[0.3em] text-xs text-[var(--gold)] mb-6"
           style={{ animationDelay: "0.2s" }}
         >
-          ENGINEERED FOR PREMIUM DRINKS
+          СОЗДАНО ДЛЯ ПРЕМИАЛЬНЫХ НАПИТКОВ
         </span>
 
         <div
@@ -46,9 +46,9 @@ const HeroSection = () => {
           className="opacity-0 animate-fade-up font-display text-5xl md:text-7xl lg:text-8xl text-gold-gradient leading-[1.1] mb-8"
           style={{ animationDelay: "0.6s" }}
         >
-          PACKAGING THAT SELLS
+          УПАКОВКА, КОТОРАЯ ПРОДАЁТ
           <br />
-          BEFORE THE FIRST SIP
+          ДО ПЕРВОГО ГЛОТКА
         </h1>
 
         <p
@@ -67,14 +67,14 @@ const HeroSection = () => {
             onClick={(e) => handleScroll(e, "#catalog")}
             className="btn-gold px-8 py-4 rounded inline-block"
           >
-            Запросить каталог
+            ЗАПРОСИТЬ КАТАЛОГ
           </a>
           <a
             href="#products"
             onClick={(e) => handleScroll(e, "#products")}
             className="btn-outline-gold px-8 py-4 rounded inline-block"
           >
-            Смотреть линейку
+            СМОТРЕТЬ ЛИНЕЙКУ
           </a>
         </div>
 

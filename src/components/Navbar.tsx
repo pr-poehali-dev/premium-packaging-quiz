@@ -57,7 +57,7 @@ const Navbar = () => {
           <button
             className="lg:hidden text-[var(--gold)] p-2"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
+            aria-label="Меню"
           >
             <Icon name={mobileOpen ? "X" : "Menu"} size={24} />
           </button>

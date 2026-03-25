@@ -51,7 +51,7 @@ const B2BSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="uppercase tracking-[0.3em] text-xs text-[var(--gold)] mb-4 block">
-            B2B CONDITIONS
+            УСЛОВИЯ СОТРУДНИЧЕСТВА
           </span>
           <div className="gold-line w-16 mx-auto mb-8" />
           <h2 className="font-display text-3xl md:text-5xl lg:text-6xl text-gold-gradient leading-tight mb-6">
