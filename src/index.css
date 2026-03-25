@@ -56,7 +56,12 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Montserrat", sans-serif;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "SF Pro Display",
+      sans-serif;
     background-color: var(--obsidian);
     overflow-x: hidden;
   }
@@ -197,7 +202,11 @@
     var(--gold-light)
   );
   color: var(--obsidian);
-  font-family: "Montserrat", sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -228,7 +237,11 @@
 .btn-outline-gold {
   border: 1px solid rgba(201, 168, 76, 0.5);
   color: var(--gold);
-  font-family: "Montserrat", sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
