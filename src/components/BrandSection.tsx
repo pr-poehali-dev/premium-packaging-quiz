@@ -50,7 +50,7 @@ const BrandSection = () => {
           <div className="flex justify-center">
             <div className="relative max-w-4xl w-full">
               <img
-                src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/e58c6a5f-1c95-4c8e-8b4a-43b1a86dfc4e.jpg"
+                src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/461aa5a6-9012-441d-9994-0bb4f46737fc.jpg"
                 alt="Линейка премиальных алюминиевых банок"
                 className="w-full h-auto rounded-lg glow-gold"
               />
