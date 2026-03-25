@@ -15,9 +15,9 @@ const products = [
     icon: "Zap",
   },
   {
-    name: "Стандарт 330мл",
+    name: "Слим 330мл",
     volume: "330 мл",
-    popular: true,
+    popular: false,
     height: "115.2 мм",
     diameter: "66.3 мм",
     wall: "0.10 мм",
@@ -30,7 +30,7 @@ const products = [
   {
     name: "Крупный 450мл",
     volume: "450 мл",
-    popular: false,
+    popular: true,
     height: "149.9 мм",
     diameter: "66.3 мм",
     wall: "0.10 мм",

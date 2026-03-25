@@ -2,8 +2,8 @@ import Icon from "@/components/ui/icon";
 
 const stats = [
   { value: "500M+", label: "банок/год" },
-  { value: "50+", label: "стран" },
-  { value: "15+", label: "лет опыта" },
+  { value: "50+", label: "регионов" },
+  { value: "3+", label: "года опыта" },
 ];
 
 const HeroSection = () => {

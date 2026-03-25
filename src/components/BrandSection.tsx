@@ -3,7 +3,7 @@ import Icon from "@/components/ui/icon";
 const triggers = [
   {
     icon: "Snowflake",
-    title: "Холодный авторитет",
+    title: "Контроль качества",
     description:
       "Контроль качества на каждом этапе. Ваш продукт хранится при идеальной температуре",
   },
