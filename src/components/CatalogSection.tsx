@@ -20,25 +20,27 @@ const products = [
     popular: false,
     height: "115.2 мм",
     diameter: "66.3 мм",
-    wall: "0.10 мм",
-    material: "Пищевой алюминий",
-    coating: "BPA-NI внутреннее покрытие",
+    wall: "0.170 мм",
+    material: "Алюминиевый сплав",
+    coating: "Внутренний лак на водной основе",
     bestFor: "Пиво, сидр, газированные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Star",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/b978569d-d03c-4cfd-88c0-cca9af86487c.png",
   },
   {
     name: "Обезличенная банка 450мл",
-    volume: "450 мл",
+    volume: "449 мл",
     popular: true,
-    height: "149.9 мм",
-    diameter: "66.3 мм",
-    wall: "0.10 мм",
-    material: "Пищевой алюминий",
-    coating: "BPA-NI внутреннее покрытие",
+    height: "168.0 мм",
+    diameter: "63.5 мм",
+    wall: "0.170 мм",
+    material: "Алюминиевый сплав",
+    coating: "Внутренний лак на водной основе",
     bestFor: "Пиво, коктейли, лимонады",
     colors: "4 базовых + полная кастомизация",
     icon: "Maximize",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/3dce5717-7f15-4770-ac43-54c34f87db02.png",
   },
 ];
 
@@ -89,14 +91,23 @@ const CatalogSection = () => {
                   </div>
                 )}
                 <div className="relative flex flex-col items-center justify-center">
-                  <div className="w-16 h-28 md:w-20 md:h-36 rounded-md border-2 border-[var(--gold)] bg-gradient-to-b from-[rgba(201,168,76,0.12)] to-[rgba(201,168,76,0.03)] flex items-center justify-center relative">
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-10 md:w-12 h-2 rounded-t-sm bg-[var(--gold-dim)]" />
-                    <Icon
-                      name={product.icon}
-                      size={24}
-                      className="text-[var(--gold)] opacity-40"
+                  {"image" in product && product.image ? (
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-40 md:h-48 w-auto object-contain opacity-50 mix-blend-luminosity transition-all duration-700 hover:opacity-90 hover:mix-blend-normal"
+                      loading="lazy"
                     />
-                  </div>
+                  ) : (
+                    <div className="w-16 h-28 md:w-20 md:h-36 rounded-md border-2 border-[var(--gold)] bg-gradient-to-b from-[rgba(201,168,76,0.12)] to-[rgba(201,168,76,0.03)] flex items-center justify-center relative">
+                      <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-10 md:w-12 h-2 rounded-t-sm bg-[var(--gold-dim)]" />
+                      <Icon
+                        name={product.icon}
+                        size={24}
+                        className="text-[var(--gold)] opacity-40"
+                      />
+                    </div>
+                  )}
                   <span className="font-display text-3xl md:text-4xl text-gold-gradient mt-4">
                     {product.volume}
                   </span>
