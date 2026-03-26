@@ -118,33 +118,34 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="can-card bg-[var(--obsidian)] border border-[rgba(201,168,76,0.15)] rounded-lg overflow-hidden flex flex-col">
       <div className="relative h-56 flex items-center justify-center">
-        <div className="relative flex flex-col items-center justify-center">
-          <img
+        <img
             src={currentImage}
             alt={`${product.name} — ${product.colorVariants[activeColor].name}`}
             className="h-40 md:h-48 w-auto object-contain transition-all duration-500 hover:scale-105"
             loading="lazy"
           />
-          <span className="font-display text-3xl md:text-4xl text-gold-gradient mt-4">
-            {product.volume}
-          </span>
-        </div>
       </div>
 
-      <div className="flex items-center justify-center gap-2 pb-2">
-        {product.colorVariants.map((variant, idx) => (
-          <button
-            key={variant.name}
-            onClick={() => setActiveColor(idx)}
-            title={variant.name}
-            className={`w-6 h-6 rounded-full border-2 transition-all duration-300 ${
-              activeColor === idx
-                ? "border-[var(--gold)] scale-110"
-                : "border-[rgba(201,168,76,0.3)] hover:border-[var(--gold)] opacity-60 hover:opacity-100"
-            }`}
-            style={{ backgroundColor: variant.color }}
-          />
-        ))}
+      <div className="flex items-center justify-center gap-3 pb-3">
+        <span className="font-display text-2xl md:text-3xl text-gold-gradient">
+          {product.volume}
+        </span>
+        <div className="w-px h-5 bg-[rgba(201,168,76,0.3)]" />
+        <div className="flex items-center gap-2">
+          {product.colorVariants.map((variant, idx) => (
+            <button
+              key={variant.name}
+              onClick={() => setActiveColor(idx)}
+              title={variant.name}
+              className={`w-6 h-6 rounded-full border-2 transition-all duration-300 ${
+                activeColor === idx
+                  ? "border-[var(--gold)] scale-110"
+                  : "border-[rgba(201,168,76,0.3)] hover:border-[var(--gold)] opacity-60 hover:opacity-100"
+              }`}
+              style={{ backgroundColor: variant.color }}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="p-6 flex-1 flex flex-col">
