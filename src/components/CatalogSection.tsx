@@ -1,7 +1,7 @@
 import Icon from "@/components/ui/icon";
 
 const CAN_IMAGE =
-  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/82ad296e-ed78-4bf8-8b37-93299221d979.jpg";
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/53fdff5e-bb50-4a67-8f99-48b4c2170161.jpg";
 
 const products = [
   {
