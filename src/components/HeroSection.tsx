@@ -67,14 +67,14 @@ const HeroSection = () => {
             onClick={(e) => handleScroll(e, "#catalog")}
             className="btn-gold px-8 py-4 rounded inline-block"
           >
-            ЗАПРОСИТЬ КАТАЛОГ
+            ОБЕЗЛИЧЕННАЯ БАНКА
           </a>
           <a
-            href="#products"
-            onClick={(e) => handleScroll(e, "#products")}
+            href="#lithography"
+            onClick={(e) => handleScroll(e, "#lithography")}
             className="btn-outline-gold px-8 py-4 rounded inline-block"
           >
-            СМОТРЕТЬ ЛИНЕЙКУ
+            ЛИТОГРАФИЯ
           </a>
         </div>
 
