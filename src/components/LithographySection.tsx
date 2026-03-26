@@ -61,6 +61,7 @@ const galleryItems = [
     accent: "#c9a84c",
     rotate: -3,
     size: "large",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/e9cea27a-ce04-4b49-a24c-12f3239d2c3d.png",
   },
   {
     id: 2,
@@ -234,16 +235,25 @@ const GalleryItem = ({ item, index }: GalleryItemProps) => {
                   }}
                 />
                 <div className="relative z-10 flex flex-col items-center gap-6 p-10">
-                  <div
-                    className="w-28 h-52 rounded-xl border flex items-center justify-center relative overflow-hidden"
-                    style={{ borderColor: `${item.accent}50`, background: `linear-gradient(160deg, ${item.accent}12 0%, transparent 100%)` }}
-                  >
-                    <div
-                      className="absolute inset-0"
-                      style={{ background: `linear-gradient(90deg, transparent 30%, ${item.accent}20 50%, transparent 70%)` }}
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full max-w-sm rounded-xl object-cover"
+                      style={{ maxHeight: 280 }}
                     />
-                    <Icon name="Sparkles" size={32} className="text-[var(--gold)] opacity-60" />
-                  </div>
+                  ) : (
+                    <div
+                      className="w-28 h-52 rounded-xl border flex items-center justify-center relative overflow-hidden"
+                      style={{ borderColor: `${item.accent}50`, background: `linear-gradient(160deg, ${item.accent}12 0%, transparent 100%)` }}
+                    >
+                      <div
+                        className="absolute inset-0"
+                        style={{ background: `linear-gradient(90deg, transparent 30%, ${item.accent}20 50%, transparent 70%)` }}
+                      />
+                      <Icon name="Sparkles" size={32} className="text-[var(--gold)] opacity-60" />
+                    </div>
+                  )}
                   <div className="text-center">
                     <p className="text-[10px] uppercase tracking-[0.3em] mb-2" style={{ color: item.accent }}>
                       Литография · Авторский дизайн
@@ -251,9 +261,11 @@ const GalleryItem = ({ item, index }: GalleryItemProps) => {
                     <h3 className="font-display text-3xl text-[var(--mist)] mb-1">{item.title}</h3>
                     <p className="text-sm text-[rgba(232,224,208,0.5)]">{item.subtitle}</p>
                   </div>
-                  <p className="text-xs text-center text-[rgba(232,224,208,0.4)] max-w-xs leading-relaxed">
-                    Здесь будет ваш готовый дизайн банки. Мы воплотим любую идею — от минимализма до сложных иллюстраций.
-                  </p>
+                  {!item.image && (
+                    <p className="text-xs text-center text-[rgba(232,224,208,0.4)] max-w-xs leading-relaxed">
+                      Здесь будет ваш готовый дизайн банки. Мы воплотим любую идею — от минимализма до сложных иллюстраций.
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="p-5 bg-[var(--graphite)] border-t border-[rgba(201,168,76,0.15)] flex items-center justify-between">
@@ -326,22 +338,31 @@ const GalleryItem = ({ item, index }: GalleryItemProps) => {
             </div>
           </div>
 
-          <div className={`relative flex flex-col items-center justify-center gap-4 ${isLarge ? "py-16 px-6" : "py-10 px-4"}`}>
-            <div
-              className="rounded-lg border flex items-center justify-center relative overflow-hidden"
-              style={{
-                width: isLarge ? 72 : 52,
-                height: isLarge ? 132 : 96,
-                borderColor: `${item.accent}40`,
-                background: `linear-gradient(160deg, ${item.accent}10 0%, transparent 100%)`,
-              }}
-            >
-              <div
-                className="absolute inset-0"
-                style={{ background: `linear-gradient(90deg, transparent 20%, ${item.accent}15 50%, transparent 80%)` }}
+          <div className={`relative flex flex-col items-center justify-center gap-4 ${isLarge ? "py-8 px-4" : "py-10 px-4"}`}>
+            {item.image ? (
+              <img
+                src={item.image}
+                alt={item.title}
+                className="w-full rounded-lg object-cover"
+                style={{ maxHeight: isLarge ? 220 : 120 }}
               />
-              <Icon name="Sparkles" size={isLarge ? 20 : 14} style={{ color: item.accent, opacity: 0.7 }} />
-            </div>
+            ) : (
+              <div
+                className="rounded-lg border flex items-center justify-center relative overflow-hidden"
+                style={{
+                  width: isLarge ? 72 : 52,
+                  height: isLarge ? 132 : 96,
+                  borderColor: `${item.accent}40`,
+                  background: `linear-gradient(160deg, ${item.accent}10 0%, transparent 100%)`,
+                }}
+              >
+                <div
+                  className="absolute inset-0"
+                  style={{ background: `linear-gradient(90deg, transparent 20%, ${item.accent}15 50%, transparent 80%)` }}
+                />
+                <Icon name="Sparkles" size={isLarge ? 20 : 14} style={{ color: item.accent, opacity: 0.7 }} />
+              </div>
+            )}
             <div className="text-center">
               <p
                 className="uppercase tracking-[0.2em] mb-1"
