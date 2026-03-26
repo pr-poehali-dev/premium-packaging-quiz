@@ -70,6 +70,7 @@ const galleryItems = [
     accent: "#e8c97a",
     rotate: 1.5,
     size: "small",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/a8f9c300-fa1f-4661-9d12-b9612289e2bc.png",
   },
   {
     id: 3,
