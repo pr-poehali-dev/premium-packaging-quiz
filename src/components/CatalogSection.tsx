@@ -47,7 +47,7 @@ const colorVariantsStd: ColorVariant[] = [
 
 const products = [
   {
-    name: "Обезличенная банка sleek 250мл",
+    name: "Обезличенная банка sleek",
     volume: "250 мл",
     popular: false,
     height: "133.2 мм",
@@ -61,7 +61,7 @@ const products = [
     colorVariants: colorVariantsSleek,
   },
   {
-    name: "Обезличенная банка sleek 330мл",
+    name: "Обезличенная банка sleek",
     volume: "330 мл",
     popular: false,
     height: "115.2 мм",
@@ -75,7 +75,7 @@ const products = [
     colorVariants: colorVariantsSleek,
   },
   {
-    name: "Обезличенная банка 450мл",
+    name: "Обезличенная банка",
     volume: "449 мл",
     popular: true,
     height: "168.0 мм",
