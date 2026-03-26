@@ -1,5 +1,4 @@
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
 
 const products = [
   {
@@ -63,8 +62,6 @@ const specRows = [
 ] as const;
 
 const CatalogSection = () => {
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-
   return (
     <section id="catalog" className="relative py-24 bg-[var(--graphite)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,22 +92,12 @@ const CatalogSection = () => {
                 )}
                 <div className="relative flex flex-col items-center justify-center">
                   {"image" in product && product.image ? (
-                    <button
-                      onClick={() => setLightboxImage(product.image!)}
-                      className="group relative cursor-zoom-in"
-                    >
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="h-40 md:h-48 w-auto object-contain opacity-50 mix-blend-luminosity transition-all duration-700 group-hover:opacity-90 group-hover:mix-blend-normal"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="w-10 h-10 rounded-full bg-[rgba(0,0,0,0.5)] backdrop-blur-sm border border-[rgba(201,168,76,0.3)] flex items-center justify-center">
-                          <Icon name="ZoomIn" size={16} className="text-[var(--gold)]" />
-                        </div>
-                      </div>
-                    </button>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-40 md:h-48 w-auto object-contain opacity-50 mix-blend-luminosity transition-all duration-700 hover:opacity-90 hover:mix-blend-normal"
+                      loading="lazy"
+                    />
                   ) : (
                     <div className="w-16 h-28 md:w-20 md:h-36 rounded-md border-2 border-[var(--gold)] bg-gradient-to-b from-[rgba(201,168,76,0.12)] to-[rgba(201,168,76,0.03)] flex items-center justify-center relative">
                       <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-10 md:w-12 h-2 rounded-t-sm bg-[var(--gold-dim)]" />
@@ -186,26 +173,6 @@ const CatalogSection = () => {
           ))}
         </div>
       </div>
-
-      {lightboxImage && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-300 cursor-zoom-out"
-          onClick={() => setLightboxImage(null)}
-        >
-          <button
-            onClick={() => setLightboxImage(null)}
-            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[rgba(0,0,0,0.6)] border border-[rgba(201,168,76,0.3)] flex items-center justify-center transition-colors hover:bg-[rgba(201,168,76,0.15)]"
-          >
-            <Icon name="X" size={18} className="text-[var(--gold)]" />
-          </button>
-          <img
-            src={lightboxImage}
-            alt="Спецификация банки"
-            className="max-w-[90vw] max-h-[90vh] object-contain animate-in zoom-in-95 duration-300"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
     </section>
   );
 };
