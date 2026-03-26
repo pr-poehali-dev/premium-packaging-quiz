@@ -130,7 +130,7 @@ const DesignSupportSection = () => {
                 <img
                   src={img.src}
                   alt={img.alt}
-                  className="w-full h-auto object-contain opacity-40 mix-blend-luminosity"
+                  className="w-full h-auto object-contain opacity-40 mix-blend-luminosity transition-all duration-700 hover:opacity-90 hover:mix-blend-normal"
                   loading="lazy"
                 />
               </div>
