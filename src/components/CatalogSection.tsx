@@ -17,13 +17,13 @@ const WHITE_CAN_SLEEK =
   "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/e0b3da1b-d25f-4383-8e78-08c5b2fa53bd.jpg";
 
 const BLACK_CAN_STD =
-  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/37a403c9-afd5-4a47-89c0-9268dd752a05.jpg";
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/195b9341-a218-4ccd-946e-76e2c569fbab.jpg";
 
 const RED_CAN_STD =
-  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/c5bf2f2c-1917-4b35-ace1-a3befbdd4502.jpg";
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/d8612926-9568-4d31-9d97-6081cdab7d35.jpg";
 
 const WHITE_CAN_STD =
-  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/fe04d370-0d02-4ff7-a69c-ab6ce775afae.jpg";
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/71202305-3033-4afd-bd96-112772514629.jpg";
 
 interface ColorVariant {
   name: string;
