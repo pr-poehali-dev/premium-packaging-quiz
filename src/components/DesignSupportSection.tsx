@@ -22,7 +22,7 @@ const steps = [
 
 const images = [
   {
-    src: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/3f0ace7a-ecc5-4452-8b36-a645a52152e6.jpg",
+    src: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/f8b9f57e-a8f4-4e0a-b6f7-10bd17095792.png",
     alt: "Техническая документация банки",
     label: "Техническая документация",
   },
