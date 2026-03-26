@@ -44,21 +44,34 @@ const ContactSection = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Запрос отправлен",
-      description:
-        "Спасибо за обращение! Наш менеджер свяжется с вами в течение 24 часов.",
-    });
-    setForm({
-      company: "",
-      contact: "",
-      email: "",
-      phone: "",
-      volume: "",
-      message: "",
-    });
+    try {
+      await fetch("https://functions.poehali.dev/2b3b2d44-fda8-41c3-a62c-55edaa8ce5c9", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      toast({
+        title: "Запрос отправлен",
+        description:
+          "Спасибо за обращение! Наш менеджер свяжется с вами в течение 24 часов.",
+      });
+      setForm({
+        company: "",
+        contact: "",
+        email: "",
+        phone: "",
+        volume: "",
+        message: "",
+      });
+    } catch {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось отправить заявку. Попробуйте позже.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
