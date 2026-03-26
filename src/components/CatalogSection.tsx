@@ -1,5 +1,8 @@
 import Icon from "@/components/ui/icon";
 
+const CAN_IMAGE =
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/82ad296e-ed78-4bf8-8b37-93299221d979.jpg";
+
 const products = [
   {
     name: "Sleek 250мл",
@@ -13,6 +16,7 @@ const products = [
     bestFor: "Энергетики, тоники, функциональные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Zap",
+    image: CAN_IMAGE,
   },
   {
     name: "Sleek 330мл",
@@ -26,6 +30,7 @@ const products = [
     bestFor: "Пиво, сидр, газированные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Star",
+    image: CAN_IMAGE,
   },
   {
     name: "Крупный 450мл",
@@ -89,14 +94,22 @@ const CatalogSection = () => {
                   </div>
                 )}
                 <div className="relative flex flex-col items-center justify-center">
-                  <div className="w-16 h-28 md:w-20 md:h-36 rounded-md border-2 border-[var(--gold)] bg-gradient-to-b from-[rgba(201,168,76,0.12)] to-[rgba(201,168,76,0.03)] flex items-center justify-center relative">
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-10 md:w-12 h-2 rounded-t-sm bg-[var(--gold-dim)]" />
-                    <Icon
-                      name={product.icon}
-                      size={24}
-                      className="text-[var(--gold)] opacity-40"
+                  {"image" in product && product.image ? (
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-36 md:h-44 w-auto object-contain drop-shadow-[0_4px_20px_rgba(201,168,76,0.15)]"
                     />
-                  </div>
+                  ) : (
+                    <div className="w-16 h-28 md:w-20 md:h-36 rounded-md border-2 border-[var(--gold)] bg-gradient-to-b from-[rgba(201,168,76,0.12)] to-[rgba(201,168,76,0.03)] flex items-center justify-center relative">
+                      <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-10 md:w-12 h-2 rounded-t-sm bg-[var(--gold-dim)]" />
+                      <Icon
+                        name={product.icon}
+                        size={24}
+                        className="text-[var(--gold)] opacity-40"
+                      />
+                    </div>
+                  )}
                   <span className="font-display text-3xl md:text-4xl text-gold-gradient mt-4">
                     {product.volume}
                   </span>
