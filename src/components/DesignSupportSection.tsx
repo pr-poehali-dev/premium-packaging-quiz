@@ -130,7 +130,7 @@ const DesignSupportSection = () => {
                 <img
                   src={img.src}
                   alt={img.alt}
-                  className={`w-full h-auto object-contain ${index === 0 ? "opacity-60" : ""}`}
+                  className="w-full h-auto object-contain opacity-40 mix-blend-luminosity"
                   loading="lazy"
                 />
               </div>
