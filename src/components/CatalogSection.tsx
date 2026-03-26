@@ -28,7 +28,7 @@ const products = [
     icon: "Star",
   },
   {
-    name: "Крупный 450мл",
+    name: "Обезличенная банка 450мл",
     volume: "450 мл",
     popular: true,
     height: "149.9 мм",
