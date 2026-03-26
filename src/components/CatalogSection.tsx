@@ -91,7 +91,7 @@ const CatalogSection = () => {
               key={product.name}
               className="can-card bg-[var(--obsidian)] border border-[rgba(201,168,76,0.15)] rounded-lg overflow-hidden flex flex-col"
             >
-              <div className="relative h-56 flex items-center justify-center bg-gradient-to-b from-[rgba(201,168,76,0.06)] to-transparent">
+              <div className="relative h-56 flex items-center justify-center">
                 {product.popular && (
                   <div className="absolute top-4 right-4 z-10 btn-gold px-3 py-1 rounded text-[10px]">
                     ХИТПРОДАЖ
@@ -102,7 +102,7 @@ const CatalogSection = () => {
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="h-40 md:h-48 w-auto object-contain opacity-50 mix-blend-luminosity transition-all duration-700 hover:opacity-90 hover:mix-blend-normal"
+                      className="h-40 md:h-48 w-auto object-contain transition-all duration-500 hover:scale-105"
                       loading="lazy"
                     />
                   ) : (
