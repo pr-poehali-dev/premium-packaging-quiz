@@ -1,5 +1,8 @@
 import Icon from "@/components/ui/icon";
 
+const CAN_IMAGE =
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/a30f3244-ad17-456b-823a-9c3e2a295158.jpg";
+
 const products = [
   {
     name: "Обезличенная банка sleek 250мл",
@@ -13,6 +16,7 @@ const products = [
     bestFor: "Энергетики, тоники, функциональные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Zap",
+    image: CAN_IMAGE,
   },
   {
     name: "Обезличенная банка sleek 330мл",
@@ -26,7 +30,7 @@ const products = [
     bestFor: "Пиво, сидр, газированные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Star",
-    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/b978569d-d03c-4cfd-88c0-cca9af86487c.png",
+    image: CAN_IMAGE,
   },
   {
     name: "Обезличенная банка 450мл",
@@ -40,7 +44,7 @@ const products = [
     bestFor: "Пиво, коктейли, лимонады",
     colors: "4 базовых + полная кастомизация",
     icon: "Maximize",
-    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/3dce5717-7f15-4770-ac43-54c34f87db02.png",
+    image: CAN_IMAGE,
   },
 ];
 
