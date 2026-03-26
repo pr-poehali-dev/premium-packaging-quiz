@@ -101,5 +101,6 @@ export const galleryItems = [
     accent: "#c9a84c",
     rotate: 1,
     size: "small",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/97c9c0ec-1986-4016-ad32-eb15c49aa216.png",
   },
 ];
