@@ -10,9 +10,8 @@ const bulletPoints = [
 ];
 
 const contactDetails = [
-  { icon: "Mail", text: "sales@aluminium-elite.com" },
-  { icon: "Phone", text: "+7 (800) 555-35-35" },
-  { icon: "MapPin", text: "Москва, Пресненская наб. 12" },
+  { icon: "Mail", text: "banka@ru-tara.com" },
+  { icon: "Phone", text: "+7 (996) 629-85-57" },
 ];
 
 const volumeOptions = [
@@ -186,28 +185,6 @@ const ContactSection = () => {
           </div>
 
           <div className="flex flex-col gap-8">
-            <div className="bg-[var(--steel)] rounded-lg p-8 border border-[rgba(201,168,76,0.1)]">
-              <h3 className="font-display text-2xl text-gold-gradient mb-8">
-                Почему выбирают нас
-              </h3>
-              <div className="space-y-5">
-                {bulletPoints.map((point) => (
-                  <div key={point} className="flex items-start gap-4">
-                    <div className="w-6 h-6 rounded-full bg-[rgba(201,168,76,0.12)] border border-[rgba(201,168,76,0.2)] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Icon
-                        name="Check"
-                        size={13}
-                        className="text-[var(--gold)]"
-                      />
-                    </div>
-                    <span className="text-[var(--mist)] text-sm leading-relaxed">
-                      {point}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <div className="bg-[var(--steel)] rounded-lg p-8 border border-[rgba(201,168,76,0.1)]">
               <h4 className="uppercase tracking-[0.2em] text-xs text-[var(--gold)] mb-6">
                 Контакты
