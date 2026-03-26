@@ -80,11 +80,12 @@ export const galleryItems = [
   },
   {
     id: 4,
-    title: "Коктейль Edition",
+    title: "Чай Edition",
     subtitle: "Авторский дизайн",
     accent: "#8a6e2f",
     rotate: 2.5,
     size: "large",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/9a42fc5e-3cdb-4564-80d8-fa95a3465b39.png",
   },
   {
     id: 5,
