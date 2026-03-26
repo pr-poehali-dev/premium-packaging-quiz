@@ -89,7 +89,7 @@ export const galleryItems = [
   },
   {
     id: 5,
-    title: "Сидр Artisan",
+    title: "Мохито",
     subtitle: "Фермерская коллекция",
     accent: "#e8c97a",
     rotate: -2,
