@@ -93,6 +93,7 @@ export const galleryItems = [
     accent: "#e8c97a",
     rotate: -2,
     size: "small",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/78342f1e-0379-4b47-a14d-dd11ce013c92.png",
   },
   {
     id: 6,
