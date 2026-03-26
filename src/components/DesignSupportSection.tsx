@@ -27,7 +27,7 @@ const images = [
     label: "Техническая документация",
   },
   {
-    src: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/8fe800f5-8a6b-4e86-af2f-7a2db0f7001c.jpg",
+    src: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/6983a537-dd79-4570-a5f5-55da9e274551.png",
     alt: "Дизайн развёртки банки",
     label: "Дизайн развёртки",
   },
