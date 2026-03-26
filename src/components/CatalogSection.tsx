@@ -92,11 +92,7 @@ const CatalogSection = () => {
               className="can-card bg-[var(--obsidian)] border border-[rgba(201,168,76,0.15)] rounded-lg overflow-hidden flex flex-col"
             >
               <div className="relative h-56 flex items-center justify-center">
-                {product.popular && (
-                  <div className="absolute top-4 right-4 z-10 btn-gold px-3 py-1 rounded text-[10px]">
-                    ХИТПРОДАЖ
-                  </div>
-                )}
+
                 <div className="relative flex flex-col items-center justify-center">
                   {"image" in product && product.image ? (
                     <img
