@@ -22,7 +22,7 @@ const steps = [
 
 const images = [
   {
-    src: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/f8b9f57e-a8f4-4e0a-b6f7-10bd17095792.png",
+    src: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/21211f3e-d773-4836-8fee-33415f657954.png",
     alt: "Техническая документация банки",
     label: "Техническая документация",
   },
@@ -130,7 +130,7 @@ const DesignSupportSection = () => {
                 <img
                   src={img.src}
                   alt={img.alt}
-                  className="w-full h-auto object-contain"
+                  className={`w-full h-auto object-contain ${index === 0 ? "opacity-60" : ""}`}
                   loading="lazy"
                 />
               </div>
