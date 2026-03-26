@@ -7,13 +7,22 @@ const SLEEK_CAN_IMAGE =
 const STD_CAN_IMAGE =
   "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/a30f3244-ad17-456b-823a-9c3e2a295158.jpg";
 
-const BLACK_CAN =
+const BLACK_CAN_SLEEK =
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/06b6fbc0-a0c0-4094-88d7-25e76f3169de.jpg";
+
+const RED_CAN_SLEEK =
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/e5534434-81d0-41a5-bc71-4d886ed9be2a.jpg";
+
+const WHITE_CAN_SLEEK =
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/e0b3da1b-d25f-4383-8e78-08c5b2fa53bd.jpg";
+
+const BLACK_CAN_STD =
   "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/195b9341-a218-4ccd-946e-76e2c569fbab.jpg";
 
-const RED_CAN =
+const RED_CAN_STD =
   "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/d8612926-9568-4d31-9d97-6081cdab7d35.jpg";
 
-const WHITE_CAN =
+const WHITE_CAN_STD =
   "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/71202305-3033-4afd-bd96-112772514629.jpg";
 
 interface ColorVariant {
@@ -22,18 +31,18 @@ interface ColorVariant {
   image: string;
 }
 
-const colorVariants: ColorVariant[] = [
+const colorVariantsSleek: ColorVariant[] = [
   { name: "Серебристый", color: "#C0C0C0", image: SLEEK_CAN_IMAGE },
-  { name: "Чёрный", color: "#1a1a1a", image: BLACK_CAN },
-  { name: "Красный", color: "#cc2222", image: RED_CAN },
-  { name: "Белый", color: "#f0f0f0", image: WHITE_CAN },
+  { name: "Чёрный", color: "#1a1a1a", image: BLACK_CAN_SLEEK },
+  { name: "Красный", color: "#cc2222", image: RED_CAN_SLEEK },
+  { name: "Белый", color: "#f0f0f0", image: WHITE_CAN_SLEEK },
 ];
 
 const colorVariantsStd: ColorVariant[] = [
   { name: "Серебристый", color: "#C0C0C0", image: STD_CAN_IMAGE },
-  { name: "Чёрный", color: "#1a1a1a", image: BLACK_CAN },
-  { name: "Красный", color: "#cc2222", image: RED_CAN },
-  { name: "Белый", color: "#f0f0f0", image: WHITE_CAN },
+  { name: "Чёрный", color: "#1a1a1a", image: BLACK_CAN_STD },
+  { name: "Красный", color: "#cc2222", image: RED_CAN_STD },
+  { name: "Белый", color: "#f0f0f0", image: WHITE_CAN_STD },
 ];
 
 const products = [
@@ -49,7 +58,7 @@ const products = [
     bestFor: "Энергетики, тоники, функциональные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Zap",
-    colorVariants: colorVariants,
+    colorVariants: colorVariantsSleek,
   },
   {
     name: "Обезличенная банка sleek 330мл",
@@ -63,7 +72,7 @@ const products = [
     bestFor: "Пиво, сидр, газированные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Star",
-    colorVariants: colorVariants,
+    colorVariants: colorVariantsSleek,
   },
   {
     name: "Обезличенная банка 450мл",
