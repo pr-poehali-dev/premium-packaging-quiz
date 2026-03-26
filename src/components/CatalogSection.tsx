@@ -2,7 +2,7 @@ import Icon from "@/components/ui/icon";
 
 const products = [
   {
-    name: "Sleek 250мл",
+    name: "Обезличенная банка sleek 250мл",
     volume: "250 мл",
     popular: false,
     height: "133.2 мм",
@@ -15,7 +15,7 @@ const products = [
     icon: "Zap",
   },
   {
-    name: "Sleek 330мл",
+    name: "Обезличенная банка sleek 330мл",
     volume: "330 мл",
     popular: false,
     height: "115.2 мм",
