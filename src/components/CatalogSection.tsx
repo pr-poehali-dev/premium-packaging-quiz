@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
 
 const SLEEK_CAN_IMAGE =
@@ -5,6 +6,35 @@ const SLEEK_CAN_IMAGE =
 
 const STD_CAN_IMAGE =
   "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/a30f3244-ad17-456b-823a-9c3e2a295158.jpg";
+
+const BLACK_CAN =
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/195b9341-a218-4ccd-946e-76e2c569fbab.jpg";
+
+const RED_CAN =
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/d8612926-9568-4d31-9d97-6081cdab7d35.jpg";
+
+const WHITE_CAN =
+  "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/71202305-3033-4afd-bd96-112772514629.jpg";
+
+interface ColorVariant {
+  name: string;
+  color: string;
+  image: string;
+}
+
+const colorVariants: ColorVariant[] = [
+  { name: "Серебристый", color: "#C0C0C0", image: SLEEK_CAN_IMAGE },
+  { name: "Чёрный", color: "#1a1a1a", image: BLACK_CAN },
+  { name: "Красный", color: "#cc2222", image: RED_CAN },
+  { name: "Белый", color: "#f0f0f0", image: WHITE_CAN },
+];
+
+const colorVariantsStd: ColorVariant[] = [
+  { name: "Серебристый", color: "#C0C0C0", image: STD_CAN_IMAGE },
+  { name: "Чёрный", color: "#1a1a1a", image: BLACK_CAN },
+  { name: "Красный", color: "#cc2222", image: RED_CAN },
+  { name: "Белый", color: "#f0f0f0", image: WHITE_CAN },
+];
 
 const products = [
   {
@@ -19,7 +49,7 @@ const products = [
     bestFor: "Энергетики, тоники, функциональные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Zap",
-    image: SLEEK_CAN_IMAGE,
+    colorVariants: colorVariants,
   },
   {
     name: "Обезличенная банка sleek 330мл",
@@ -33,7 +63,7 @@ const products = [
     bestFor: "Пиво, сидр, газированные напитки",
     colors: "4 базовых + полная кастомизация",
     icon: "Star",
-    image: SLEEK_CAN_IMAGE,
+    colorVariants: colorVariants,
   },
   {
     name: "Обезличенная банка 450мл",
@@ -47,7 +77,7 @@ const products = [
     bestFor: "Пиво, коктейли, лимонады",
     colors: "4 базовых + полная кастомизация",
     icon: "Maximize",
-    image: STD_CAN_IMAGE,
+    colorVariants: colorVariantsStd,
   },
 ];
 
@@ -68,6 +98,87 @@ const specRows = [
   { key: "colors", label: "Цвета" },
 ] as const;
 
+interface ProductCardProps {
+  product: (typeof products)[number];
+}
+
+const ProductCard = ({ product }: ProductCardProps) => {
+  const [activeColor, setActiveColor] = useState(0);
+  const currentImage = product.colorVariants[activeColor].image;
+
+  return (
+    <div className="can-card bg-[var(--obsidian)] border border-[rgba(201,168,76,0.15)] rounded-lg overflow-hidden flex flex-col">
+      <div className="relative h-56 flex items-center justify-center">
+        <div className="relative flex flex-col items-center justify-center">
+          <img
+            src={currentImage}
+            alt={`${product.name} — ${product.colorVariants[activeColor].name}`}
+            className="h-40 md:h-48 w-auto object-contain transition-all duration-500 hover:scale-105"
+            loading="lazy"
+          />
+          <span className="font-display text-3xl md:text-4xl text-gold-gradient mt-4">
+            {product.volume}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-center gap-2 pb-2">
+        {product.colorVariants.map((variant, idx) => (
+          <button
+            key={variant.name}
+            onClick={() => setActiveColor(idx)}
+            title={variant.name}
+            className={`w-6 h-6 rounded-full border-2 transition-all duration-300 ${
+              activeColor === idx
+                ? "border-[var(--gold)] scale-110"
+                : "border-[rgba(201,168,76,0.3)] hover:border-[var(--gold)] opacity-60 hover:opacity-100"
+            }`}
+            style={{ backgroundColor: variant.color }}
+          />
+        ))}
+      </div>
+
+      <div className="p-6 flex-1 flex flex-col">
+        <h3 className="font-display text-2xl text-gold-gradient mb-5">
+          {product.name}
+        </h3>
+
+        <div className="space-y-3 flex-1">
+          {specRows.map((spec) => (
+            <div
+              key={spec.key}
+              className="flex items-start justify-between gap-3"
+            >
+              <span className="uppercase tracking-wider text-[10px] text-[var(--gold)] flex-shrink-0 pt-0.5">
+                {spec.label}
+              </span>
+              <span className="text-xs text-[var(--mist)] text-right leading-snug">
+                {product[spec.key]}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="gold-line w-full mt-6 mb-6" />
+
+        <a
+          href="#contacts"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.querySelector("#contacts");
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          className="btn-outline-gold px-8 py-4 rounded text-center block w-full"
+        >
+          Запросить образец
+        </a>
+      </div>
+    </div>
+  );
+};
+
 const CatalogSection = () => {
   return (
     <section id="catalog" className="relative py-24 bg-[var(--graphite)]">
@@ -87,74 +198,7 @@ const CatalogSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
           {products.map((product) => (
-            <div
-              key={product.name}
-              className="can-card bg-[var(--obsidian)] border border-[rgba(201,168,76,0.15)] rounded-lg overflow-hidden flex flex-col"
-            >
-              <div className="relative h-56 flex items-center justify-center">
-
-                <div className="relative flex flex-col items-center justify-center">
-                  {"image" in product && product.image ? (
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="h-40 md:h-48 w-auto object-contain transition-all duration-500 hover:scale-105"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-16 h-28 md:w-20 md:h-36 rounded-md border-2 border-[var(--gold)] bg-gradient-to-b from-[rgba(201,168,76,0.12)] to-[rgba(201,168,76,0.03)] flex items-center justify-center relative">
-                      <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-10 md:w-12 h-2 rounded-t-sm bg-[var(--gold-dim)]" />
-                      <Icon
-                        name={product.icon}
-                        size={24}
-                        className="text-[var(--gold)] opacity-40"
-                      />
-                    </div>
-                  )}
-                  <span className="font-display text-3xl md:text-4xl text-gold-gradient mt-4">
-                    {product.volume}
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-6 flex-1 flex flex-col">
-                <h3 className="font-display text-2xl text-gold-gradient mb-5">
-                  {product.name}
-                </h3>
-
-                <div className="space-y-3 flex-1">
-                  {specRows.map((spec) => (
-                    <div
-                      key={spec.key}
-                      className="flex items-start justify-between gap-3"
-                    >
-                      <span className="uppercase tracking-wider text-[10px] text-[var(--gold)] flex-shrink-0 pt-0.5">
-                        {spec.label}
-                      </span>
-                      <span className="text-xs text-[var(--mist)] text-right leading-snug">
-                        {product[spec.key]}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="gold-line w-full mt-6 mb-6" />
-
-                <a
-                  href="#contacts"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const target = document.querySelector("#contacts");
-                    if (target) {
-                      target.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }}
-                  className="btn-outline-gold px-8 py-4 rounded text-center block w-full"
-                >
-                  Запросить образец
-                </a>
-              </div>
-            </div>
+            <ProductCard key={product.name} product={product} />
           ))}
         </div>
 
