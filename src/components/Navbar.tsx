@@ -2,9 +2,9 @@ import { useState } from "react";
 import Icon from "@/components/ui/icon";
 
 const navLinks = [
-  { label: "Преимущества", href: "#products" },
-  { label: "Каталог", href: "#catalog" },
-  { label: "Сертификаты", href: "#certificates" },
+  { label: "Обезличенная банка", href: "#catalog" },
+  { label: "Литография", href: "#lithography" },
+  { label: "Дизайн", href: "#design" },
   { label: "Контакты", href: "#contacts" },
 ];
 

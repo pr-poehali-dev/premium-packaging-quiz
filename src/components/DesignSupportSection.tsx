@@ -37,7 +37,7 @@ const DesignSupportSection = () => {
   const [activeImage, setActiveImage] = useState(0);
 
   return (
-    <section className="relative py-24 bg-[var(--graphite)]">
+    <section id="design" className="relative py-24 bg-[var(--graphite)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="uppercase tracking-[0.3em] text-xs text-[var(--gold)] mb-4 block">
