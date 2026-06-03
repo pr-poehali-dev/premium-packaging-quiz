@@ -1,6 +1,6 @@
 export const lithoProducts = [
   {
-    name: "Литография узкая",
+    name: "Банка с литографией sleek",
     volume: "250 мл",
     height: "133.2 мм",
     diameter: "53 мм",
@@ -13,7 +13,7 @@ export const lithoProducts = [
     popular: false,
   },
   {
-    name: "Литография узкая",
+    name: "Банка с литографией sleek",
     volume: "330 мл",
     height: "115.2 мм",
     diameter: "66.3 мм",
