@@ -203,6 +203,16 @@ const HeroSection = () => {
           >
             ЛИТОГРАФИЯ
           </a>
+          <a
+            href="tel:+79966298557"
+            className="flex items-center gap-3 px-8 py-4 rounded border border-white/20 hover:border-white/40 transition-all duration-300 group"
+            style={{ background: "rgba(255,255,255,0.05)" }}
+          >
+            <span className="w-8 h-8 rounded-full flex items-center justify-center bg-[var(--gold)] group-hover:scale-110 transition-transform">
+              <Icon name="Phone" size={15} className="text-[var(--obsidian)]" />
+            </span>
+            <span className="text-white font-semibold tracking-wide">+7 (996) 629-85-57</span>
+          </a>
         </div>
 
         <div
