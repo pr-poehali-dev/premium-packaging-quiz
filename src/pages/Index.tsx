@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import BrandSection from "@/components/BrandSection";
 import DesignSupportSection from "@/components/DesignSupportSection";
 import CatalogSection from "@/components/CatalogSection";
 import LithographySection from "@/components/LithographySection";
@@ -13,7 +12,6 @@ const Index = () => {
     <div className="min-h-screen bg-[var(--obsidian)]">
       <Navbar />
       <HeroSection />
-      <BrandSection />
       <CatalogSection />
       <LithographySection />
       <DesignSupportSection />
