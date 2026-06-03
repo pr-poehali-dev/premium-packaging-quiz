@@ -381,7 +381,7 @@ const CatalogSection = () => {
             ОБЕЗЛИЧЕННАЯ БАНКА
           </h2>
           <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto">
-            Полный спектр решений для вашего бренда
+            Продажа от 100 000 банок
           </p>
         </div>
 
