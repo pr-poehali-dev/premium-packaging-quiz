@@ -118,7 +118,7 @@ const HeroSection = () => {
                 <p className="text-white text-sm mb-4 opacity-80">
                   Только сегодня — специальная цена на банку. Успей оформить заказ!
                 </p>
-                <div className="flex items-center justify-center gap-3">
+                <div className="flex items-center justify-center gap-3 mb-5">
                   {[{ val: h, label: "ч" }, { val: m, label: "мин" }, { val: s, label: "сек" }].map(
                     (unit, i) => (
                       <div key={i} className="flex items-center gap-3">
@@ -144,6 +144,14 @@ const HeroSection = () => {
                     )
                   )}
                 </div>
+                <a
+                  href="tel:+79966298557"
+                  className="flex items-center justify-center gap-3 w-full py-3 rounded-xl font-semibold text-[var(--obsidian)] transition-opacity hover:opacity-90"
+                  style={{ background: "linear-gradient(135deg, var(--gold-light), var(--gold))" }}
+                >
+                  <Icon name="Phone" size={17} />
+                  +7 (996) 629-85-57
+                </a>
               </>
             ) : (
               <>
@@ -203,16 +211,7 @@ const HeroSection = () => {
           >
             ЛИТОГРАФИЯ
           </a>
-          <a
-            href="tel:+79966298557"
-            className="flex items-center gap-3 px-8 py-4 rounded border border-white/20 hover:border-white/40 transition-all duration-300 group"
-            style={{ background: "rgba(255,255,255,0.05)" }}
-          >
-            <span className="w-8 h-8 rounded-full flex items-center justify-center bg-[var(--gold)] group-hover:scale-110 transition-transform">
-              <Icon name="Phone" size={15} className="text-[var(--obsidian)]" />
-            </span>
-            <span className="text-white font-semibold tracking-wide">+7 (996) 629-85-57</span>
-          </a>
+
         </div>
 
         <div
