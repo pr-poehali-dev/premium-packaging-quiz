@@ -62,7 +62,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/4a3b77aa-6ef9-4a88-a0e8-575ceaceb674.jpg"
+          src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/150be4a2-2ab9-409a-84f5-69180ba0cdef.png"
           alt="Премиальные алюминиевые банки"
           className="w-full h-full object-cover"
         />
