@@ -46,7 +46,7 @@ const BrandSection = () => {
         <div className="relative mb-20">
           <div className="relative w-full rounded-2xl overflow-hidden glow-gold" style={{ minHeight: 340 }}>
             <img
-              src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/785bd100-5174-41bf-814c-edd382ad0ebc.png"
+              src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/5d88d7cb-4034-4729-9b68-8b3299c1ccdc.png"
               alt="Линейка премиальных алюминиевых банок"
               className="w-full h-full object-cover"
               style={{ minHeight: 340 }}
