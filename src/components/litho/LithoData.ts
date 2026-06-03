@@ -1,6 +1,6 @@
 export const lithoProducts = [
   {
-    name: "Литография sleek",
+    name: "Литография узкая",
     volume: "250 мл",
     height: "133.2 мм",
     diameter: "53 мм",
@@ -13,7 +13,7 @@ export const lithoProducts = [
     popular: false,
   },
   {
-    name: "Литография sleek",
+    name: "Литография узкая",
     volume: "330 мл",
     height: "115.2 мм",
     diameter: "66.3 мм",
@@ -62,7 +62,7 @@ export const galleryItems = [
   },
   {
     id: 2,
-    title: "Энергетик Pro",
+    title: "Энергетик Про",
     subtitle: "Городская коллекция",
     accent: "#e8c97a",
     rotate: 1.5,
@@ -71,7 +71,7 @@ export const galleryItems = [
   },
   {
     id: 3,
-    title: "Лимонад Premium",
+    title: "Лимонад Премиум",
     subtitle: "Летняя серия",
     accent: "#c9a84c",
     rotate: -1,
@@ -80,7 +80,7 @@ export const galleryItems = [
   },
   {
     id: 4,
-    title: "Чай Edition",
+    title: "Чай Серия",
     subtitle: "Авторский дизайн",
     accent: "#8a6e2f",
     rotate: 2.5,
@@ -98,7 +98,7 @@ export const galleryItems = [
   },
   {
     id: 6,
-    title: "Тоник Royal",
+    title: "Тоник Королевский",
     subtitle: "Классическая серия",
     accent: "#c9a84c",
     rotate: 1,

@@ -28,7 +28,7 @@ const Navbar = () => {
             href="#"
             className="text-gold-gradient font-display text-xl lg:text-2xl font-bold tracking-widest"
           >
-            ALUMINIUM ELITE
+            АЛЮМИНИУМ ЭЛИТ
           </a>
 
           <div className="hidden lg:flex items-center gap-8">

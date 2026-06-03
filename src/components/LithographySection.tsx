@@ -51,7 +51,7 @@ const LithographySection = () => {
                 className="font-display text-[clamp(3rem,10vw,8rem)] leading-none opacity-[0.03] text-[var(--gold)] whitespace-nowrap"
                 aria-hidden
               >
-                GALLERY
+                ГАЛЕРЕЯ
               </span>
             </div>
 
@@ -101,7 +101,7 @@ const LithographySection = () => {
               className="absolute top-4 right-6 text-[8px] uppercase tracking-[0.3em] opacity-20"
               style={{ color: "var(--gold)", writingMode: "vertical-rl" }}
             >
-              Exhibition · 2025
+              Выставка · 2025
             </div>
 
             <div className="relative z-10 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 auto-rows-auto">
@@ -112,7 +112,7 @@ const LithographySection = () => {
 
             <div className="relative z-10 mt-10 flex items-center justify-center gap-2 opacity-40">
               <div className="w-12 h-px bg-[var(--gold)]" />
-              <span className="text-[9px] uppercase tracking-[0.3em] text-[var(--gold)]">Canmaker Gallery</span>
+              <span className="text-[9px] uppercase tracking-[0.3em] text-[var(--gold)]">Галерея производителя</span>
               <div className="w-12 h-px bg-[var(--gold)]" />
             </div>
           </div>

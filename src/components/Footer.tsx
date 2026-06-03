@@ -23,7 +23,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 mb-12">
           <div>
             <span className="text-gold-gradient font-display text-2xl font-bold tracking-widest block mb-3">
-              ALUMINIUM ELITE
+              АЛЮМИНИУМ ЭЛИТ
             </span>
             <p className="text-muted-foreground text-sm">Упаковка как статус</p>
           </div>
@@ -53,7 +53,7 @@ const Footer = () => {
         <div className="gold-line w-full mb-8" />
 
         <p className="text-muted-foreground text-xs text-center tracking-wide">
-          &copy; 2024 Aluminium Elite. Все права защищены.
+          &copy; 2024 Алюминиум Элит. Все права защищены.
         </p>
       </div>
     </footer>
