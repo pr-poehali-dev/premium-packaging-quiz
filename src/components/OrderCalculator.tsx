@@ -59,9 +59,9 @@ const LID_PRICES: Record<Factory, Record<LidColor, Price>> = {
   },
 };
 
-// АРНЕСТ: цена за 1 цвет с НДС = 35 583 / 8 ≈ 4 448 ₽
+// АРНЕСТ: 250 000 ₽ до 8 цветов. 1 цвет — по прайсу, насчитывается отдельно после утверждения дизайна
 // КЭН-ПАК: фиксированная ставка 95 000 ₽ до 8 цветов
-const DESIGN_PER_COLOR_ARNEST_VAT = 4448;
+const DESIGN_PER_COLOR_ARNEST_VAT = 31250; // 250 000 / 8
 const DESIGN_KENPAK_VAT = 95000.18;
 
 // Наценка за невозврат тары (банка, ₽/шт с НДС)
@@ -355,14 +355,14 @@ const OrderCalculator = () => {
                       checked={withDesign}
                       onClick={() => setWithDesign(!withDesign)}
                       label={factory === "arnest"
-                        ? `Заведение дизайна (${colorCount} цв. × 4 448 ₽ = ${(colorCount * DESIGN_PER_COLOR_ARNEST_VAT).toLocaleString("ru-RU")} ₽ с НДС)`
+                        ? `Заведение дизайна (до 8 цветов — 250 000 ₽ с НДС)`
                         : "Заведение дизайна (до 8 цветов — 95 000 ₽ с НДС)"}
                     />
 
                     {/* Выбор цветов — только АРНЕСТ */}
                     {factory === "arnest" && withDesign && (
-                      <div className="pl-8">
-                        <label className="text-[9px] uppercase tracking-wider text-muted-foreground block mb-2">
+                      <div className="pl-8 space-y-2">
+                        <label className="text-[9px] uppercase tracking-wider text-muted-foreground block">
                           Количество цветов
                         </label>
                         <div className="flex gap-1.5 flex-wrap">
@@ -376,6 +376,9 @@ const OrderCalculator = () => {
                             </button>
                           ))}
                         </div>
+                        <p className="text-[9px] text-muted-foreground leading-relaxed">
+                          Стоимость 1 цвета — по прайсу. Насчитывается отдельно после утверждения дизайна.
+                        </p>
                       </div>
                     )}
                   </div>
