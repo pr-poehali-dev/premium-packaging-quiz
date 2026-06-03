@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 
 const stats = [
@@ -6,13 +7,55 @@ const stats = [
   { value: "3+", label: "года опыта" },
 ];
 
+const SALE_START_HOUR = 6;
+const SALE_END_HOUR = 17;
+
+function getSaleState() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
+  const active = hours >= SALE_START_HOUR && hours < SALE_END_HOUR;
+
+  if (active) {
+    const endToday = new Date();
+    endToday.setHours(SALE_END_HOUR, 0, 0, 0);
+    const diff = Math.max(0, Math.floor((endToday.getTime() - now.getTime()) / 1000));
+    return { active: true, diff };
+  } else {
+    const nextStart = new Date();
+    if (hours >= SALE_END_HOUR) {
+      nextStart.setDate(nextStart.getDate() + 1);
+    }
+    nextStart.setHours(SALE_START_HOUR, 0, 0, 0);
+    const diff = Math.max(0, Math.floor((nextStart.getTime() - now.getTime()) / 1000));
+    return { active: false, diff };
+  }
+}
+
+function pad(n: number) {
+  return String(n).padStart(2, "0");
+}
+
 const HeroSection = () => {
+  const [saleState, setSaleState] = useState(getSaleState);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSaleState(getSaleState());
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const h = Math.floor(saleState.diff / 3600);
+  const m = Math.floor((saleState.diff % 3600) / 60);
+  const s = saleState.diff % 60;
+
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+    if (target) target.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -30,11 +73,12 @@ const HeroSection = () => {
       <div className="absolute inset-0 noise-overlay" />
 
       <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-6 max-w-5xl mx-auto pt-20">
+
         <span
           className="opacity-0 animate-fade-up uppercase tracking-[0.3em] text-xs text-[var(--gold)] mb-6"
           style={{ animationDelay: "0.2s" }}
         >
-          СОЗДАНО ДЛЯ ПРЕМИАЛЬНЫХ НАПИТКОВ
+          АЛЮМИНИЕВЫЕ БАНКИ
         </span>
 
         <div
@@ -43,24 +87,114 @@ const HeroSection = () => {
         />
 
         <h1
-          className="opacity-0 animate-fade-up font-display text-5xl md:text-7xl lg:text-8xl text-gold-gradient leading-[1.1] mb-8"
+          className="opacity-0 animate-fade-up font-display text-4xl md:text-6xl lg:text-7xl text-white leading-[1.08] mb-4 tracking-tight"
           style={{ animationDelay: "0.6s" }}
         >
-          УПАКОВКА, КОТОРАЯ ПРОДАЁТ
-          <br />
-          ДО ПЕРВОГО ГЛОТКА
+          250 мл · 330 мл · 450 мл
         </h1>
 
         <p
-          className="opacity-0 animate-fade-up text-muted-foreground text-base md:text-lg lg:text-xl max-w-2xl mb-12 leading-relaxed"
-          style={{ animationDelay: "0.8s" }}
+          className="opacity-0 animate-fade-up text-[var(--mist)] text-base md:text-lg max-w-xl mb-10 leading-relaxed opacity-70"
+          style={{ animationDelay: "0.75s" }}
         >
           Алюминиевые банки премиум-класса для брендов, которые хотят выделяться
         </p>
 
+        {/* Блок акции с таймером */}
+        <div
+          className="opacity-0 animate-fade-up w-full max-w-lg mb-10"
+          style={{ animationDelay: "0.9s" }}
+        >
+          <div
+            className="rounded-2xl px-6 py-5 border"
+            style={{
+              background: saleState.active
+                ? "linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(232,201,122,0.06) 100%)"
+                : "rgba(255,255,255,0.03)",
+              borderColor: saleState.active ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.1)",
+            }}
+          >
+            {saleState.active ? (
+              <>
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <span className="w-2 h-2 rounded-full bg-[var(--gold)] animate-pulse inline-block" />
+                  <span className="text-[var(--gold)] text-xs uppercase tracking-[0.25em] font-semibold">
+                    Акция действует сегодня до 17:00
+                  </span>
+                </div>
+                <p className="text-white text-sm mb-4 opacity-80">
+                  Только сегодня — специальная цена на банку. Успей оформить заказ!
+                </p>
+                <div className="flex items-center justify-center gap-3">
+                  {[{ val: h, label: "ч" }, { val: m, label: "мин" }, { val: s, label: "сек" }].map(
+                    (unit, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <div className="flex flex-col items-center">
+                          <div
+                            className="font-display text-3xl md:text-4xl font-bold tabular-nums w-16 text-center rounded-xl py-2"
+                            style={{
+                              color: "var(--gold)",
+                              background: "rgba(201,168,76,0.1)",
+                              border: "1px solid rgba(201,168,76,0.2)",
+                            }}
+                          >
+                            {pad(unit.val)}
+                          </div>
+                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">
+                            {unit.label}
+                          </span>
+                        </div>
+                        {i < 2 && (
+                          <span className="text-[var(--gold)] text-2xl font-bold opacity-60 mb-4">:</span>
+                        )}
+                      </div>
+                    )
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <Icon name="Clock" size={14} className="text-muted-foreground" />
+                  <span className="text-muted-foreground text-xs uppercase tracking-[0.25em]">
+                    Акция начнётся через
+                  </span>
+                </div>
+                <div className="flex items-center justify-center gap-3">
+                  {[{ val: h, label: "ч" }, { val: m, label: "мин" }, { val: s, label: "сек" }].map(
+                    (unit, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <div className="flex flex-col items-center">
+                          <div
+                            className="font-display text-2xl md:text-3xl font-bold tabular-nums w-14 text-center rounded-xl py-1.5"
+                            style={{
+                              color: "rgba(255,255,255,0.4)",
+                              background: "rgba(255,255,255,0.04)",
+                              border: "1px solid rgba(255,255,255,0.08)",
+                            }}
+                          >
+                            {pad(unit.val)}
+                          </div>
+                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">
+                            {unit.label}
+                          </span>
+                        </div>
+                        {i < 2 && (
+                          <span className="text-muted-foreground text-xl font-bold opacity-40 mb-4">:</span>
+                        )}
+                      </div>
+                    )
+                  )}
+                </div>
+                <p className="text-muted-foreground text-xs mt-3">Ежедневная акция: 6:00 — 17:00</p>
+              </>
+            )}
+          </div>
+        </div>
+
         <div
           className="opacity-0 animate-fade-up flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mb-16"
-          style={{ animationDelay: "1s" }}
+          style={{ animationDelay: "1.1s" }}
         >
           <a
             href="#catalog"
@@ -80,7 +214,7 @@ const HeroSection = () => {
 
         <div
           className="opacity-0 animate-fade-up flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full max-w-2xl"
-          style={{ animationDelay: "1.2s" }}
+          style={{ animationDelay: "1.3s" }}
         >
           {stats.map((stat) => (
             <div
