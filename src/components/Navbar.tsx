@@ -25,10 +25,10 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <a
-            href="#"
-            className="text-gold-gradient font-display text-xl lg:text-2xl font-bold tracking-widest"
+            href="tel:+79966298557"
+            className="text-gold-gradient font-display text-xl lg:text-2xl font-bold tracking-widest hover:opacity-80 transition-opacity"
           >
-            АЛЮМИНИУМ ЭЛИТ
+            +7 (996) 629-85-57
           </a>
 
           <div className="hidden lg:flex items-center gap-8">

@@ -1,6 +1,41 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 
+const PHONE = "+7 (996) 629-85-57";
+const PHONE_HREF = "tel:+79966298557";
+
+const PhoneModal = ({ onClose }: { onClose: () => void }) => (
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+    onClick={onClose}
+  >
+    <div
+      className="bg-[var(--obsidian)] border border-[rgba(201,168,76,0.3)] rounded-xl p-8 mx-4 max-w-sm w-full text-center shadow-2xl"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="w-14 h-14 rounded-full bg-[rgba(201,168,76,0.1)] border border-[rgba(201,168,76,0.2)] flex items-center justify-center mx-auto mb-5">
+        <Icon name="Phone" size={26} className="text-[var(--gold)]" />
+      </div>
+      <p className="text-[var(--mist)] text-sm mb-3 uppercase tracking-widest">Позвонить нам</p>
+      <a
+        href={PHONE_HREF}
+        className="text-gold-gradient font-display text-2xl font-bold tracking-wide hover:opacity-80 transition-opacity block mb-6"
+      >
+        {PHONE}
+      </a>
+      <a href={PHONE_HREF} className="btn-gold px-8 py-3 rounded block w-full mb-3">
+        Позвонить
+      </a>
+      <button
+        onClick={onClose}
+        className="text-muted-foreground text-sm hover:text-[var(--mist)] transition-colors"
+      >
+        Закрыть
+      </button>
+    </div>
+  </div>
+);
+
 const SLEEK_CAN_IMAGE =
   "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/dd99d2fb-dd3f-444f-bc5d-65f2c2dd0aa0.jpg";
 
@@ -113,10 +148,12 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const [activeColor, setActiveColor] = useState(0);
+  const [showPhone, setShowPhone] = useState(false);
   const currentImage = product.colorVariants[activeColor].image;
 
   return (
     <div className="can-card bg-[var(--obsidian)] border border-[rgba(201,168,76,0.15)] rounded-lg overflow-hidden flex flex-col">
+      {showPhone && <PhoneModal onClose={() => setShowPhone(false)} />}
       <div className="relative h-56 flex items-center justify-center">
         <img
             src={currentImage}
@@ -171,19 +208,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         <div className="gold-line w-full mt-6 mb-6" />
 
-        <a
-          href="#contacts"
-          onClick={(e) => {
-            e.preventDefault();
-            const target = document.querySelector("#contacts");
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth" });
-            }
-          }}
+        <button
+          onClick={() => setShowPhone(true)}
           className="btn-outline-gold px-8 py-4 rounded text-center block w-full"
         >
           Запросить образец
-        </a>
+        </button>
       </div>
     </div>
   );
