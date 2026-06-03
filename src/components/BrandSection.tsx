@@ -44,43 +44,44 @@ const BrandSection = () => {
         </div>
 
         <div className="relative mb-20">
-          <div className="flex justify-center">
-            <div className="relative max-w-4xl w-full">
-              <img
-                src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/fd4cef20-11ec-4436-85ae-1b4143b1adcd.jpg"
-                alt="Линейка премиальных алюминиевых банок"
-                className="w-full h-auto rounded-lg glow-gold"
-              />
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-[var(--obsidian)] via-transparent to-transparent opacity-60" />
-            </div>
-          </div>
-        </div>
+          <div className="relative w-full rounded-2xl overflow-hidden glow-gold" style={{ minHeight: 340 }}>
+            <img
+              src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/785bd100-5174-41bf-814c-edd382ad0ebc.png"
+              alt="Линейка премиальных алюминиевых банок"
+              className="w-full h-full object-cover"
+              style={{ minHeight: 340 }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-20">
-          {triggers.map((trigger) => (
-            <div
-              key={trigger.title}
-              className="can-card bg-[var(--graphite)] border border-[rgba(201,168,76,0.15)] rounded-lg p-8"
-            >
-              <div className="flex items-start gap-5">
-                <div className="flex-shrink-0 w-12 h-12 rounded flex items-center justify-center bg-[rgba(201,168,76,0.08)] border border-[rgba(201,168,76,0.15)]">
-                  <Icon
-                    name={trigger.icon}
-                    size={22}
-                    className="text-[var(--gold)]"
-                  />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-gold-gradient font-display text-2xl mb-3">
-                    {trigger.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {trigger.description}
-                  </p>
-                </div>
+            <div className="absolute inset-0 flex items-end p-6 md:p-10">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
+                {triggers.map((trigger) => (
+                  <div
+                    key={trigger.title}
+                    className="rounded-xl px-4 py-4 flex flex-col gap-2"
+                    style={{
+                      background: "rgba(8,8,8,0.82)",
+                      border: "1px solid rgba(201,168,76,0.3)",
+                      backdropFilter: "blur(16px)",
+                    }}
+                  >
+                    <div
+                      className="w-9 h-9 rounded-full flex items-center justify-center mb-1 flex-shrink-0"
+                      style={{ background: "rgba(201,168,76,0.12)", border: "1px solid rgba(201,168,76,0.3)" }}
+                    >
+                      <Icon name={trigger.icon} size={17} className="text-[var(--gold)]" />
+                    </div>
+                    <h3 className="text-white text-xs font-semibold leading-tight font-display">
+                      {trigger.title}
+                    </h3>
+                    <p className="text-muted-foreground text-[11px] leading-snug">
+                      {trigger.description}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
+          </div>
         </div>
 
         <div className="flex flex-col items-center text-center">
