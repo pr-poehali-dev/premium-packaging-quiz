@@ -46,11 +46,11 @@ const Navbar = () => {
 
           <div className="hidden lg:block">
             <a
-              href="#contacts"
-              onClick={(e) => handleNavClick(e, "#contacts")}
+              href="#catalog"
+              onClick={(e) => handleNavClick(e, "#catalog")}
               className="btn-gold px-6 py-2.5 rounded"
             >
-              Запросить КП
+              Цены
             </a>
           </div>
 
@@ -78,11 +78,11 @@ const Navbar = () => {
               </a>
             ))}
             <a
-              href="#contacts"
-              onClick={(e) => handleNavClick(e, "#contacts")}
+              href="#catalog"
+              onClick={(e) => handleNavClick(e, "#catalog")}
               className="btn-gold px-8 py-3 rounded mt-4"
             >
-              Запросить КП
+              Цены
             </a>
           </div>
         </div>

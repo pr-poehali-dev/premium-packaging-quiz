@@ -108,17 +108,17 @@ const B2BSection = () => {
               Расскажите о вашем проекте — мы подготовим персональные условия
             </p>
             <a
-              href="#contacts"
+              href="#catalog"
               onClick={(e) => {
                 e.preventDefault();
-                const target = document.querySelector("#contacts");
+                const target = document.querySelector("#catalog");
                 if (target) {
                   target.scrollIntoView({ behavior: "smooth" });
                 }
               }}
               className="btn-gold px-10 py-5 rounded text-sm"
             >
-              Запросить КП
+              Цены
             </a>
           </div>
         </div>
