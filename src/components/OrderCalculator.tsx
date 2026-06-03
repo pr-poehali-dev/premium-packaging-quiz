@@ -64,6 +64,25 @@ const LID_PRICES: Record<Factory, Record<LidColor, Price>> = {
 const DESIGN_PER_COLOR_ARNEST_VAT = 4448;
 const DESIGN_KENPAK_VAT = 95000.18;
 
+// Наценка за невозврат тары (банка, ₽/шт с НДС)
+const NONRETURN_CAN: Record<Factory, number> = {
+  arnest: 1.43,
+  kenpak: 1.27,
+};
+
+// Наценка за невозврат тары (крышки) — фикс за паллет, ₽
+// поддон + рама + картон (усреднённо для 1 паллета)
+const NONRETURN_LID_PALLET: Record<Factory, { pallet: number; frame: number; cardboard: number }> = {
+  arnest: { pallet: 4050, frame: 1830, cardboard: 102 },
+  kenpak: { pallet: 2700, frame: 1220, cardboard: 185 },
+};
+
+// Кол-во крышек в паллете (для расчёта кол-ва паллетов)
+const LID_PER_PALLET: Record<Factory, number> = {
+  arnest: 330000,
+  kenpak: 192780,
+};
+
 const CITIES: Record<Factory, string[]> = {
   arnest: ["Наро-Фоминск", "Всеволожск"],
   kenpak: ["Волоколамск", "Новочеркасск"],
@@ -79,10 +98,15 @@ interface CalcResult {
   lidPrice: number;
   designSetup: number;
   total: number;
+  totalWithNonReturn: number;
+  nonReturnCan: number;
+  nonReturnLid: number;
   pricePerCan: number;
+  pricePerCanWithNonReturn: number;
   factory: Factory;
   city: string;
   colorCount: number;
+  qty: number;
 }
 
 const Checkbox = ({ checked, onClick, label }: { checked: boolean; onClick: () => void; label: string }) => (
@@ -149,14 +173,29 @@ const OrderCalculator = () => {
     const designTotal = designCost();
     const total = canTotal + lidTotal + designTotal;
 
+    // Наценка за невозврат тары
+    const nonReturnCan = NONRETURN_CAN[factory] * qty;
+    let nonReturnLid = 0;
+    if (lid !== "none") {
+      const pallets = Math.ceil(qty / LID_PER_PALLET[factory]);
+      const p = NONRETURN_LID_PALLET[factory];
+      nonReturnLid = pallets * (p.pallet + p.frame + p.cardboard);
+    }
+    const totalWithNonReturn = total + nonReturnCan + nonReturnLid;
+
     setResult({
       canPrice: canTotal,
       lidPrice: lidTotal,
       designSetup: designTotal,
       total,
+      totalWithNonReturn,
+      nonReturnCan,
+      nonReturnLid,
       pricePerCan: total / qty,
+      pricePerCanWithNonReturn: totalWithNonReturn / qty,
       factory,
       city,
+      qty,
       colorCount,
     });
   };
@@ -382,21 +421,22 @@ const OrderCalculator = () => {
               {/* Результат */}
               {result && (
                 <div
-                  className="rounded-xl p-5 space-y-3"
+                  className="rounded-xl p-5 space-y-4"
                   style={{
                     background: "rgba(160,210,255,0.04)",
                     border: "1px solid rgba(160,210,255,0.3)",
                     boxShadow: "0 0 20px rgba(160,210,255,0.08)",
                   }}
                 >
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2">
                     <Icon name="Calculator" size={14} style={{ color: "#c8e8ff" }} />
                     <span className="text-[10px] uppercase tracking-wider" style={{ color: "#c8e8ff" }}>
-                      {FACTORY_NAMES[result.factory]} · {result.city}
+                      {FACTORY_NAMES[result.factory]} · {result.city} · {result.qty.toLocaleString("ru-RU")} шт
                     </span>
                   </div>
 
-                  <div className="space-y-2">
+                  {/* Состав заказа */}
+                  <div className="space-y-1.5">
                     <div className="flex justify-between">
                       <span className="text-[11px] text-muted-foreground">Банки</span>
                       <span className="text-[11px] text-[var(--mist)]">{fmt(result.canPrice)}</span>
@@ -417,14 +457,56 @@ const OrderCalculator = () => {
                     )}
                   </div>
 
-                  <div className="pt-3 mt-1" style={{ borderTop: "1px solid rgba(160,210,255,0.15)" }}>
-                    <div className="flex justify-between items-baseline">
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground">Итого с НДС</span>
-                      <span className="font-display text-2xl text-gold-gradient">{fmt(result.total)}</span>
+                  {/* Сравнение: с возвратом vs без */}
+                  <div className="grid grid-cols-2 gap-3 pt-1">
+                    {/* С возвратом тары */}
+                    <div
+                      className="rounded-lg p-3 flex flex-col gap-1"
+                      style={{ background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.25)" }}
+                    >
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <Icon name="RotateCcw" size={10} className="text-[var(--gold)]" />
+                        <span className="text-[9px] uppercase tracking-wider text-[var(--gold)]">С возвратом тары</span>
+                      </div>
+                      <span className="font-display text-lg text-gold-gradient leading-none">{fmt(result.total)}</span>
+                      <span className="text-[9px] text-muted-foreground">{fmt(result.pricePerCan)} / шт</span>
                     </div>
-                    <div className="flex justify-between mt-1">
-                      <span className="text-[10px] text-muted-foreground">Цена за банку</span>
-                      <span className="text-[11px] text-[var(--mist)]">{fmt(result.pricePerCan)}</span>
+
+                    {/* Без возврата тары */}
+                    <div
+                      className="rounded-lg p-3 flex flex-col gap-1"
+                      style={{ background: "rgba(255,80,80,0.05)", border: "1px solid rgba(255,80,80,0.2)" }}
+                    >
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <Icon name="PackageX" size={10} style={{ color: "#f87171" }} />
+                        <span className="text-[9px] uppercase tracking-wider" style={{ color: "#f87171" }}>Без возврата тары</span>
+                      </div>
+                      <span className="font-display text-lg leading-none" style={{ color: "#fca5a5" }}>{fmt(result.totalWithNonReturn)}</span>
+                      <span className="text-[9px] text-muted-foreground">{fmt(result.pricePerCanWithNonReturn)} / шт</span>
+                    </div>
+                  </div>
+
+                  {/* Расшифровка наценки */}
+                  <div
+                    className="rounded-lg px-3 py-2.5 space-y-1"
+                    style={{ background: "rgba(255,80,80,0.04)", border: "1px solid rgba(255,80,80,0.12)" }}
+                  >
+                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1.5">Наценка за невозврат тары</p>
+                    <div className="flex justify-between">
+                      <span className="text-[10px] text-muted-foreground">Банки ({NONRETURN_CAN[result.factory]} ₽/шт)</span>
+                      <span className="text-[10px]" style={{ color: "#fca5a5" }}>+{fmt(result.nonReturnCan)}</span>
+                    </div>
+                    {result.nonReturnLid > 0 && (
+                      <div className="flex justify-between">
+                        <span className="text-[10px] text-muted-foreground">Тара крышек (паллет/рама/картон)</span>
+                        <span className="text-[10px]" style={{ color: "#fca5a5" }}>+{fmt(result.nonReturnLid)}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between pt-1" style={{ borderTop: "1px solid rgba(255,80,80,0.12)" }}>
+                      <span className="text-[10px] font-semibold text-muted-foreground">Переплата</span>
+                      <span className="text-[10px] font-bold" style={{ color: "#f87171" }}>
+                        +{fmt(result.nonReturnCan + result.nonReturnLid)}
+                      </span>
                     </div>
                   </div>
 
