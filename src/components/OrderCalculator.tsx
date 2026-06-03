@@ -106,6 +106,7 @@ interface FactoryResult {
   pricePerCan: number;
   pricePerCanWithNonReturn: number;
   available: boolean;
+  warning?: string;
 }
 
 interface CalcResult {
@@ -175,6 +176,11 @@ const OrderCalculator = () => {
     const totalWithNonReturn = total + nonReturnCan + nonReturnLid;
     // КЭН-ПАК не производит 250мл
     const available = !(f === "kenpak" && volume === "250");
+    // Предупреждения
+    let warning: string | undefined;
+    if (f === "kenpak" && isLitho && qty < 330000) {
+      warning = "Минимальный заказ литографии — 330 000 шт. Расчёт приблизительный.";
+    }
     return {
       factory: f,
       city: CITIES[f][0],
@@ -188,6 +194,7 @@ const OrderCalculator = () => {
       pricePerCan: total / qty,
       pricePerCanWithNonReturn: totalWithNonReturn / qty,
       available,
+      warning,
     };
   };
 
@@ -423,6 +430,15 @@ const OrderCalculator = () => {
                             <span className="text-[9px] text-muted-foreground border border-white/10 rounded px-2 py-0.5">Нет 250 мл</span>
                           )}
                         </div>
+
+                        {/* Предупреждение */}
+                        {r.warning && (
+                          <div className="flex items-start gap-2 rounded-lg px-3 py-2"
+                            style={{ background: "rgba(251,191,36,0.06)", border: "1px solid rgba(251,191,36,0.25)" }}>
+                            <Icon name="TriangleAlert" size={11} className="mt-0.5 flex-shrink-0" style={{ color: "#fbbf24" }} />
+                            <span className="text-[10px] leading-relaxed" style={{ color: "#fcd34d" }}>{r.warning}</span>
+                          </div>
+                        )}
 
                         {r.available && (
                           <>
