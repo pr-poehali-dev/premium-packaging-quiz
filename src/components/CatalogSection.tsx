@@ -66,6 +66,19 @@ interface ColorVariant {
   image: string;
 }
 
+interface PriceRow {
+  label: string;
+  noVat: string;
+  withVat: string;
+}
+
+interface FactoryPricing {
+  factory: string;
+  city: string;
+  rows: PriceRow[];
+  extras: { label: string; value: string }[];
+}
+
 const colorVariantsSleek: ColorVariant[] = [
   { name: "Серебристый", color: "#C0C0C0", image: SLEEK_CAN_IMAGE },
   { name: "Чёрный", color: "#1a1a1a", image: BLACK_CAN_SLEEK },
@@ -94,6 +107,21 @@ const products = [
     colors: "4 базовых + полная кастомизация",
     icon: "Zap",
     colorVariants: colorVariantsSleek,
+    pricing: [
+      {
+        factory: "АРНЕСТ",
+        city: "Наро-Фоминск, Всеволожск",
+        rows: [
+          { label: "от 100 000 шт, обезличенная/литография", noVat: "15,40 ₽", withVat: "18,79 ₽" },
+          { label: "от 330 000 шт, обезличенная/литография", noVat: "13,41 ₽", withVat: "16,36 ₽" },
+          { label: "от 330 000 шт, доплата за матовый цвет", noVat: "0,37 ₽", withVat: "0,45 ₽" },
+        ],
+        extras: [
+          { label: "Заведение дизайна", value: "35 583 ₽ с НДС" },
+          { label: "Наценка за невозврат тары", value: "1,43 ₽ с НДС" },
+        ],
+      },
+    ] as FactoryPricing[],
   },
   {
     name: "Обезличенная банка sleek",
@@ -108,6 +136,34 @@ const products = [
     colors: "4 базовых + полная кастомизация",
     icon: "Star",
     colorVariants: colorVariantsSleek,
+    pricing: [
+      {
+        factory: "АРНЕСТ",
+        city: "Всеволожск",
+        rows: [
+          { label: "от 100 000 шт, обезличенная/литография", noVat: "12,90 ₽", withVat: "15,74 ₽" },
+          { label: "от 330 000 шт, обезличенная/литография", noVat: "12,04 ₽", withVat: "14,69 ₽" },
+          { label: "от 330 000 шт, доплата за матовый цвет", noVat: "0,37 ₽", withVat: "0,45 ₽" },
+        ],
+        extras: [
+          { label: "Заведение дизайна", value: "35 583 ₽ с НДС" },
+          { label: "Наценка за невозврат тары", value: "1,43 ₽ с НДС" },
+        ],
+      },
+      {
+        factory: "КЭН-ПАК",
+        city: "Новочеркасск, Волоколамск",
+        rows: [
+          { label: "от 100 000 шт, обезличенная", noVat: "11,23 ₽", withVat: "13,70 ₽" },
+          { label: "от 300 000 шт, обезличенная/литография", noVat: "10,93 ₽", withVat: "13,33 ₽" },
+          { label: "от 300 000 шт, литография матовая", noVat: "11,13 ₽", withVat: "13,58 ₽" },
+        ],
+        extras: [
+          { label: "Заведение дизайна (до 8 цветов)", value: "95 000 ₽ с НДС" },
+          { label: "Наценка за невозврат тары", value: "1,27 ₽ с НДС" },
+        ],
+      },
+    ] as FactoryPricing[],
   },
   {
     name: "Обезличенная банка",
@@ -122,6 +178,21 @@ const products = [
     colors: "4 базовых + полная кастомизация",
     icon: "Maximize",
     colorVariants: colorVariantsStd,
+    pricing: [
+      {
+        factory: "АРНЕСТ",
+        city: "Наро-Фоминск, Всеволожск",
+        rows: [
+          { label: "от 100 000 шт, обезличенная/литография", noVat: "15,40 ₽", withVat: "18,79 ₽" },
+          { label: "от 330 000 шт, обезличенная/литография", noVat: "13,41 ₽", withVat: "16,36 ₽" },
+          { label: "от 330 000 шт, доплата за матовый цвет", noVat: "0,37 ₽", withVat: "0,45 ₽" },
+        ],
+        extras: [
+          { label: "Заведение дизайна", value: "35 583 ₽ с НДС" },
+          { label: "Наценка за невозврат тары", value: "1,43 ₽ с НДС" },
+        ],
+      },
+    ] as FactoryPricing[],
   },
 ];
 
@@ -146,9 +217,71 @@ interface ProductCardProps {
   product: (typeof products)[number];
 }
 
+const PricingBlock = ({ pricing }: { pricing: FactoryPricing[] }) => {
+  const [activeFactory, setActiveFactory] = useState(0);
+  const current = pricing[activeFactory];
+
+  return (
+    <div
+      className="rounded-lg overflow-hidden mt-6"
+      style={{ border: "1px solid rgba(201,168,76,0.2)", background: "rgba(201,168,76,0.03)" }}
+    >
+      {pricing.length > 1 && (
+        <div className="flex border-b border-[rgba(201,168,76,0.15)]">
+          {pricing.map((p, i) => (
+            <button
+              key={p.factory}
+              onClick={() => setActiveFactory(i)}
+              className={`flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                activeFactory === i
+                  ? "bg-[rgba(201,168,76,0.12)] text-[var(--gold)]"
+                  : "text-muted-foreground hover:text-[var(--mist)]"
+              }`}
+            >
+              {p.factory}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="p-4">
+        <div className="flex items-center gap-1.5 mb-3">
+          <Icon name="MapPin" size={11} className="text-[var(--gold)] flex-shrink-0" />
+          <span className="text-[10px] text-muted-foreground">{current.city}</span>
+        </div>
+
+        <div className="space-y-0 mb-3">
+          <div className="grid grid-cols-[1fr_auto_auto] gap-x-3 pb-1.5 mb-1 border-b border-[rgba(201,168,76,0.1)]">
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground">Условие</span>
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground text-right">Без НДС</span>
+            <span className="text-[9px] uppercase tracking-wider text-[var(--gold)] text-right">С НДС 22%</span>
+          </div>
+          {current.rows.map((row, i) => (
+            <div key={i} className="grid grid-cols-[1fr_auto_auto] gap-x-3 py-1.5 border-b border-[rgba(255,255,255,0.04)]">
+              <span className="text-[10px] text-[var(--mist)] leading-snug">{row.label}</span>
+              <span className="text-[10px] text-muted-foreground text-right whitespace-nowrap">{row.noVat}</span>
+              <span className="text-[10px] text-white font-semibold text-right whitespace-nowrap">{row.withVat}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="space-y-1 pt-1">
+          {current.extras.map((e, i) => (
+            <div key={i} className="flex items-start justify-between gap-2">
+              <span className="text-[9px] text-muted-foreground leading-snug">{e.label}</span>
+              <span className="text-[9px] text-[var(--gold)] text-right whitespace-nowrap font-medium">{e.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ProductCard = ({ product }: ProductCardProps) => {
   const [activeColor, setActiveColor] = useState(0);
   const [showPhone, setShowPhone] = useState(false);
+  const [showPrices, setShowPrices] = useState(false);
   const currentImage = product.colorVariants[activeColor].image;
 
   return (
@@ -206,6 +339,22 @@ const ProductCard = ({ product }: ProductCardProps) => {
           ))}
         </div>
 
+        <button
+          onClick={() => setShowPrices(!showPrices)}
+          className="mt-5 flex items-center justify-between w-full px-4 py-3 rounded-lg transition-colors"
+          style={{
+            background: showPrices ? "rgba(201,168,76,0.1)" : "rgba(201,168,76,0.05)",
+            border: "1px solid rgba(201,168,76,0.2)",
+          }}
+        >
+          <span className="text-xs font-semibold uppercase tracking-wider text-[var(--gold)]">
+            Цены · июнь 2026
+          </span>
+          <Icon name={showPrices ? "ChevronUp" : "ChevronDown"} size={14} className="text-[var(--gold)]" />
+        </button>
+
+        {showPrices && <PricingBlock pricing={product.pricing} />}
+
         <div className="gold-line w-full mt-6 mb-6" />
 
         <button
@@ -229,7 +378,7 @@ const CatalogSection = () => {
           </span>
           <div className="gold-line w-16 mx-auto mb-8" />
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-gold-gradient leading-tight mb-6">
-            ЛИНЕЙКА ПРОДУКЦИИ
+            ОБЕЗЛИЧЕННАЯ БАНКА
           </h2>
           <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto">
             Полный спектр решений для вашего бренда
@@ -238,7 +387,7 @@ const CatalogSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
           {products.map((product) => (
-            <ProductCard key={product.name} product={product} />
+            <ProductCard key={`${product.name}-${product.volume}`} product={product} />
           ))}
         </div>
 
