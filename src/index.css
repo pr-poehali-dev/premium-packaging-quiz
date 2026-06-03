@@ -277,6 +277,28 @@
   color: var(--pearl);
 }
 
+/* BMW LED pulse animation */
+@keyframes bmwPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 10px rgba(160, 210, 255, 0.3),
+      inset 0 0 6px rgba(160, 210, 255, 0.04);
+    border-color: rgba(160, 210, 255, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 0 22px rgba(160, 210, 255, 0.7),
+      0 0 40px rgba(160, 210, 255, 0.2),
+      inset 0 0 12px rgba(160, 210, 255, 0.08);
+    border-color: rgba(200, 232, 255, 0.95);
+  }
+}
+
+.btn-bmw-pulse {
+  animation: bmwPulse 2s ease-in-out infinite;
+}
+
 /* Horizontal scroll section */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;

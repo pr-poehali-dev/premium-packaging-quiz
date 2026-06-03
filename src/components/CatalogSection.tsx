@@ -341,7 +341,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         <button
           onClick={() => setShowPrices(!showPrices)}
-          className="mt-5 flex items-center justify-between w-full px-4 py-3 rounded-lg transition-all duration-300"
+          className={`mt-5 flex items-center justify-between w-full px-4 py-3 rounded-lg transition-all duration-300 ${!showPrices ? "btn-bmw-pulse" : ""}`}
           style={{
             background: showPrices
               ? "rgba(180, 220, 255, 0.08)"
@@ -349,7 +349,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             border: "1px solid rgba(160, 210, 255, 0.7)",
             boxShadow: showPrices
               ? "0 0 18px rgba(160, 210, 255, 0.35), inset 0 0 12px rgba(160, 210, 255, 0.06)"
-              : "0 0 12px rgba(160, 210, 255, 0.25), inset 0 0 8px rgba(160, 210, 255, 0.04)",
+              : undefined,
           }}
         >
           <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#c8e8ff" }}>
