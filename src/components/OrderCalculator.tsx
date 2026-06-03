@@ -93,7 +93,9 @@ const FACTORY_NAMES: Record<Factory, string> = {
   kenpak: "КЭН-ПАК",
 };
 
-interface CalcResult {
+interface FactoryResult {
+  factory: Factory;
+  city: string;
   canPrice: number;
   lidPrice: number;
   designSetup: number;
@@ -103,10 +105,14 @@ interface CalcResult {
   nonReturnLid: number;
   pricePerCan: number;
   pricePerCanWithNonReturn: number;
-  factory: Factory;
-  city: string;
-  colorCount: number;
+  available: boolean;
+}
+
+interface CalcResult {
   qty: number;
+  colorCount: number;
+  arnest: FactoryResult;
+  kenpak: FactoryResult;
 }
 
 const Checkbox = ({ checked, onClick, label }: { checked: boolean; onClick: () => void; label: string }) => (
@@ -131,8 +137,6 @@ const OrderCalculator = () => {
   const [canType, setCanType] = useState<CanType>("blank");
   const [volume, setVolume] = useState<CanVolume>("330");
   const [quantity, setQuantity] = useState<string>("100000");
-  const [factory, setFactory] = useState<Factory>("arnest");
-  const [city, setCity] = useState<string>("Наро-Фоминск");
   const [matte, setMatte] = useState(false);
   const [lid, setLid] = useState<LidColor>("none");
   const [withDesign, setWithDesign] = useState(false);
@@ -140,13 +144,6 @@ const OrderCalculator = () => {
   const [result, setResult] = useState<CalcResult | null>(null);
 
   const isLitho = canType === "litho";
-
-  const handleFactoryChange = (f: Factory) => {
-    setFactory(f);
-    setCity(CITIES[f][0]);
-    if (f === "kenpak" && lid === "gold") setLid("none");
-    if (f === "kenpak") setMatte(false);
-  };
 
   const handleTypeChange = (t: CanType) => {
     setCanType(t);
@@ -156,35 +153,31 @@ const OrderCalculator = () => {
     }
   };
 
-  const designCost = () => {
-    if (!withDesign || !isLitho) return 0;
-    if (factory === "arnest") return DESIGN_PER_COLOR_ARNEST_VAT * colorCount;
-    return DESIGN_KENPAK_VAT;
-  };
-
-  const calculate = () => {
-    const qty = parseInt(quantity.replace(/\D/g, "")) || 0;
-    if (qty < 100000) return;
-
-    const priceSet = PRICES[canType][volume][factory];
+  const calcForFactory = (f: Factory, qty: number): FactoryResult => {
+    const priceSet = PRICES[canType][volume][f];
     const basePrice = qty >= 300000 ? priceSet.from300k.withVat : priceSet.from100k.withVat;
-    const matteAdd = isLitho && matte ? priceSet.matte.withVat : 0;
+    const matteAdd = isLitho && matte && f === "arnest" ? priceSet.matte.withVat : 0;
     const canTotal = (basePrice + matteAdd) * qty;
-    const lidTotal = lid !== "none" ? LID_PRICES[factory][lid].withVat * qty : 0;
-    const designTotal = designCost();
+    const effectiveLid = (lid === "gold" && f === "kenpak") ? "none" : lid;
+    const lidTotal = effectiveLid !== "none" ? LID_PRICES[f][effectiveLid].withVat * qty : 0;
+    let designTotal = 0;
+    if (withDesign && isLitho) {
+      designTotal = f === "arnest" ? DESIGN_PER_COLOR_ARNEST_VAT * colorCount : DESIGN_KENPAK_VAT;
+    }
     const total = canTotal + lidTotal + designTotal;
-
-    // Наценка за невозврат тары
-    const nonReturnCan = NONRETURN_CAN[factory] * qty;
+    const nonReturnCan = NONRETURN_CAN[f] * qty;
     let nonReturnLid = 0;
-    if (lid !== "none") {
-      const pallets = Math.ceil(qty / LID_PER_PALLET[factory]);
-      const p = NONRETURN_LID_PALLET[factory];
+    if (effectiveLid !== "none") {
+      const pallets = Math.ceil(qty / LID_PER_PALLET[f]);
+      const p = NONRETURN_LID_PALLET[f];
       nonReturnLid = pallets * (p.pallet + p.frame + p.cardboard);
     }
     const totalWithNonReturn = total + nonReturnCan + nonReturnLid;
-
-    setResult({
+    // КЭН-ПАК не производит 250мл
+    const available = !(f === "kenpak" && volume === "250");
+    return {
+      factory: f,
+      city: CITIES[f][0],
       canPrice: canTotal,
       lidPrice: lidTotal,
       designSetup: designTotal,
@@ -194,10 +187,18 @@ const OrderCalculator = () => {
       nonReturnLid,
       pricePerCan: total / qty,
       pricePerCanWithNonReturn: totalWithNonReturn / qty,
-      factory,
-      city,
+      available,
+    };
+  };
+
+  const calculate = () => {
+    const qty = parseInt(quantity.replace(/\D/g, "")) || 0;
+    if (qty < 100000) return;
+    setResult({
       qty,
       colorCount,
+      arnest: calcForFactory("arnest", qty),
+      kenpak: calcForFactory("kenpak", qty),
     });
     setTimeout(() => {
       resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -311,63 +312,25 @@ const OrderCalculator = () => {
                 )}
               </div>
 
-              {/* Завод */}
-              <div>
-                <label className="text-[10px] uppercase tracking-wider text-[var(--gold)] block mb-2">Завод-производитель</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {(["arnest", "kenpak"] as Factory[]).map((f) => (
-                    <button key={f} onClick={() => handleFactoryChange(f)}
-                      className={`py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${factory === f ? btnActive : btnIdle}`}>
-                      {FACTORY_NAMES[f]}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Город */}
-              <div>
-                <label className="text-[10px] uppercase tracking-wider text-[var(--gold)] block mb-2">Город вывоза</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {CITIES[factory].map((c) => (
-                    <button key={c} onClick={() => setCity(c)}
-                      className={`py-2.5 rounded-lg text-xs font-semibold transition-all ${city === c
-                        ? "bg-[rgba(160,210,255,0.1)] border text-[#c8e8ff]"
-                        : btnIdle}`}
-                      style={city === c ? { borderColor: "rgba(160,210,255,0.5)" } : {}}>
-                      {c}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* Дополнительно — только для литографии */}
               {isLitho && (
                 <div>
                   <label className="text-[10px] uppercase tracking-wider text-[var(--gold)] block mb-2">Дополнительно</label>
                   <div className="space-y-3">
-                    {/* Матовое покрытие — только АРНЕСТ */}
-                    {factory === "arnest" && (
-                      <Checkbox
-                        checked={matte}
-                        onClick={() => setMatte(!matte)}
-                        label="Матовый цвет (+0,45 ₽/шт с НДС)"
-                      />
-                    )}
-
-                    {/* Заведение дизайна */}
+                    <Checkbox
+                      checked={matte}
+                      onClick={() => setMatte(!matte)}
+                      label="Матовый цвет — АРНЕСТ (+0,45 ₽/шт с НДС)"
+                    />
                     <Checkbox
                       checked={withDesign}
                       onClick={() => setWithDesign(!withDesign)}
-                      label={factory === "arnest"
-                        ? `Заведение дизайна (до 8 цветов — 250 000 ₽ с НДС)`
-                        : "Заведение дизайна (до 8 цветов — 95 000 ₽ с НДС)"}
+                      label="Заведение дизайна (до 8 цветов)"
                     />
-
-                    {/* Выбор цветов — только АРНЕСТ */}
-                    {factory === "arnest" && withDesign && (
+                    {withDesign && (
                       <div className="pl-8 space-y-2">
                         <label className="text-[9px] uppercase tracking-wider text-muted-foreground block">
-                          Количество цветов
+                          Кол-во цветов (для АРНЕСТ)
                         </label>
                         <div className="flex gap-1.5 flex-wrap">
                           {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
@@ -381,7 +344,7 @@ const OrderCalculator = () => {
                           ))}
                         </div>
                         <p className="text-[9px] text-muted-foreground leading-relaxed">
-                          Стоимость 1 цвета — по прайсу. Насчитывается отдельно после утверждения дизайна.
+                          АРНЕСТ: 250 000 ₽ с НДС. КЭН-ПАК: 95 000 ₽ с НДС. Стоимость 1 цвета — по прайсу, насчитывается после утверждения дизайна.
                         </p>
                       </div>
                     )}
@@ -397,18 +360,20 @@ const OrderCalculator = () => {
                     ["none", "Без крышек"],
                     ["silver", "Серебро"],
                     ["black", "Чёрная"],
-                    ["gold", factory === "kenpak" ? "Золото (запрос)" : "Золото"],
+                    ["gold", "Золото"],
                   ] as [LidColor, string][]).map(([v, label]) => (
                     <button
                       key={v}
                       onClick={() => setLid(v)}
-                      disabled={v === "gold" && factory === "kenpak"}
-                      className={`py-2.5 rounded-lg text-xs font-semibold transition-all disabled:opacity-30 disabled:cursor-not-allowed ${lid === v ? btnActive : btnIdle}`}
+                      className={`py-2.5 rounded-lg text-xs font-semibold transition-all ${lid === v ? btnActive : btnIdle}`}
                     >
                       {label}
                     </button>
                   ))}
                 </div>
+                {lid === "gold" && (
+                  <p className="text-[9px] text-muted-foreground mt-1">* Золотые крышки — только АРНЕСТ. У КЭН-ПАК будет рассчитано без крышек.</p>
+                )}
               </div>
 
               {/* Кнопка */}
@@ -427,110 +392,111 @@ const OrderCalculator = () => {
 
               {/* Результат */}
               {result && (
-                <div
-                  ref={resultRef}
-                  className="rounded-xl p-5 space-y-4"
-                  style={{
-                    background: "rgba(160,210,255,0.04)",
-                    border: "1px solid rgba(160,210,255,0.3)",
-                    boxShadow: "0 0 20px rgba(160,210,255,0.08)",
-                  }}
-                >
+                <div ref={resultRef} className="space-y-4">
                   <div className="flex items-center gap-2">
                     <Icon name="Calculator" size={14} style={{ color: "#c8e8ff" }} />
                     <span className="text-[10px] uppercase tracking-wider" style={{ color: "#c8e8ff" }}>
-                      {FACTORY_NAMES[result.factory]} · {result.city} · {result.qty.toLocaleString("ru-RU")} шт
+                      Сравнение заводов · {result.qty.toLocaleString("ru-RU")} шт
                     </span>
                   </div>
 
-                  {/* Состав заказа */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between">
-                      <span className="text-[11px] text-muted-foreground">Банки</span>
-                      <span className="text-[11px] text-[var(--mist)]">{fmt(result.canPrice)}</span>
-                    </div>
-                    {result.lidPrice > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-[11px] text-muted-foreground">Крышки</span>
-                        <span className="text-[11px] text-[var(--mist)]">{fmt(result.lidPrice)}</span>
-                      </div>
-                    )}
-                    {result.designSetup > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-[11px] text-muted-foreground">
-                          Заведение дизайна{result.factory === "arnest" ? ` (${result.colorCount} цв.)` : ""}
-                        </span>
-                        <span className="text-[11px] text-[var(--mist)]">{fmt(result.designSetup)}</span>
-                      </div>
-                    )}
-                  </div>
+                  {/* Два завода */}
+                  {(["arnest", "kenpak"] as Factory[]).map((f) => {
+                    const r = result[f];
+                    return (
+                      <div
+                        key={f}
+                        className="rounded-xl p-4 space-y-3"
+                        style={{
+                          background: r.available ? "rgba(160,210,255,0.04)" : "rgba(255,255,255,0.02)",
+                          border: `1px solid ${r.available ? "rgba(160,210,255,0.3)" : "rgba(255,255,255,0.08)"}`,
+                          opacity: r.available ? 1 : 0.5,
+                        }}
+                      >
+                        {/* Заголовок завода */}
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <span className="text-xs font-bold uppercase tracking-wider text-[var(--mist)]">{FACTORY_NAMES[f]}</span>
+                            <span className="text-[9px] text-muted-foreground ml-2">{r.city}</span>
+                          </div>
+                          {!r.available && (
+                            <span className="text-[9px] text-muted-foreground border border-white/10 rounded px-2 py-0.5">Нет 250 мл</span>
+                          )}
+                        </div>
 
-                  {/* Сравнение: с возвратом vs без */}
-                  <div className="grid grid-cols-2 gap-3 pt-1">
-                    {/* С возвратом тары */}
-                    <div
-                      className="rounded-lg p-3 flex flex-col gap-1"
-                      style={{ background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.25)" }}
-                    >
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <Icon name="RotateCcw" size={10} className="text-[var(--gold)]" />
-                        <span className="text-[9px] uppercase tracking-wider text-[var(--gold)]">С возвратом тары</span>
-                      </div>
-                      <span className="font-display text-lg text-gold-gradient leading-none">{fmt(result.total)}</span>
-                      <span className="text-[9px] text-muted-foreground">{fmt(result.pricePerCan)} / шт</span>
-                    </div>
+                        {r.available && (
+                          <>
+                            {/* Состав */}
+                            <div className="space-y-1">
+                              <div className="flex justify-between">
+                                <span className="text-[10px] text-muted-foreground">Банки</span>
+                                <span className="text-[10px] text-[var(--mist)]">{fmt(r.canPrice)}</span>
+                              </div>
+                              {r.lidPrice > 0 && (
+                                <div className="flex justify-between">
+                                  <span className="text-[10px] text-muted-foreground">Крышки</span>
+                                  <span className="text-[10px] text-[var(--mist)]">{fmt(r.lidPrice)}</span>
+                                </div>
+                              )}
+                              {r.designSetup > 0 && (
+                                <div className="flex justify-between">
+                                  <span className="text-[10px] text-muted-foreground">
+                                    Заведение дизайна{f === "arnest" ? ` (${result.colorCount} цв.)` : ""}
+                                  </span>
+                                  <span className="text-[10px] text-[var(--mist)]">{fmt(r.designSetup)}</span>
+                                </div>
+                              )}
+                            </div>
 
-                    {/* Без возврата тары */}
-                    <div
-                      className="rounded-lg p-3 flex flex-col gap-1"
-                      style={{ background: "rgba(255,80,80,0.05)", border: "1px solid rgba(255,80,80,0.2)" }}
-                    >
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <Icon name="PackageX" size={10} style={{ color: "#f87171" }} />
-                        <span className="text-[9px] uppercase tracking-wider" style={{ color: "#f87171" }}>Без возврата тары</span>
-                      </div>
-                      <span className="font-display text-lg leading-none" style={{ color: "#fca5a5" }}>{fmt(result.totalWithNonReturn)}</span>
-                      <span className="text-[9px] text-muted-foreground">{fmt(result.pricePerCanWithNonReturn)} / шт</span>
-                    </div>
-                  </div>
+                            {/* С возвратом / без */}
+                            <div className="grid grid-cols-2 gap-2">
+                              <div
+                                className="rounded-lg p-2.5 flex flex-col gap-0.5"
+                                style={{ background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.2)" }}
+                              >
+                                <div className="flex items-center gap-1 mb-0.5">
+                                  <Icon name="RotateCcw" size={9} className="text-[var(--gold)]" />
+                                  <span className="text-[8px] uppercase tracking-wider text-[var(--gold)]">С возвратом</span>
+                                </div>
+                                <span className="font-display text-base text-gold-gradient leading-none">{fmt(r.total)}</span>
+                                <span className="text-[8px] text-muted-foreground">{fmt(r.pricePerCan)} / шт</span>
+                              </div>
+                              <div
+                                className="rounded-lg p-2.5 flex flex-col gap-0.5"
+                                style={{ background: "rgba(255,80,80,0.05)", border: "1px solid rgba(255,80,80,0.18)" }}
+                              >
+                                <div className="flex items-center gap-1 mb-0.5">
+                                  <Icon name="PackageX" size={9} style={{ color: "#f87171" }} />
+                                  <span className="text-[8px] uppercase tracking-wider" style={{ color: "#f87171" }}>Без возврата</span>
+                                </div>
+                                <span className="font-display text-base leading-none" style={{ color: "#fca5a5" }}>{fmt(r.totalWithNonReturn)}</span>
+                                <span className="text-[8px] text-muted-foreground">{fmt(r.pricePerCanWithNonReturn)} / шт</span>
+                              </div>
+                            </div>
 
-                  {/* Расшифровка наценки */}
-                  <div
-                    className="rounded-lg px-3 py-2.5 space-y-1"
-                    style={{ background: "rgba(255,80,80,0.04)", border: "1px solid rgba(255,80,80,0.12)" }}
-                  >
-                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1.5">Наценка за невозврат тары</p>
-                    <div className="flex justify-between">
-                      <span className="text-[10px] text-muted-foreground">Банки ({NONRETURN_CAN[result.factory]} ₽/шт)</span>
-                      <span className="text-[10px]" style={{ color: "#fca5a5" }}>+{fmt(result.nonReturnCan)}</span>
-                    </div>
-                    {result.nonReturnLid > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-[10px] text-muted-foreground">Тара крышек (паллет/рама/картон)</span>
-                        <span className="text-[10px]" style={{ color: "#fca5a5" }}>+{fmt(result.nonReturnLid)}</span>
+                            {/* Переплата за невозврат */}
+                            <div className="flex justify-between items-center px-1">
+                              <span className="text-[9px] text-muted-foreground">Переплата за невозврат тары</span>
+                              <span className="text-[9px] font-semibold" style={{ color: "#f87171" }}>
+                                +{fmt(r.nonReturnCan + r.nonReturnLid)}
+                              </span>
+                            </div>
+                          </>
+                        )}
                       </div>
-                    )}
-                    <div className="flex justify-between pt-1" style={{ borderTop: "1px solid rgba(255,80,80,0.12)" }}>
-                      <span className="text-[10px] font-semibold text-muted-foreground">Переплата</span>
-                      <span className="text-[10px] font-bold" style={{ color: "#f87171" }}>
-                        +{fmt(result.nonReturnCan + result.nonReturnLid)}
-                      </span>
-                    </div>
-                  </div>
+                    );
+                  })}
 
                   {/* Торг и контакт */}
                   <div
-                    className="rounded-lg px-4 py-3 mt-1 space-y-2"
+                    className="rounded-lg px-4 py-3 space-y-2"
                     style={{ background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.2)" }}
                   >
                     <p className="text-[11px] text-[var(--mist)] leading-relaxed">
                       Указаны базовые цены — <span className="text-[var(--gold)] font-semibold">торг уместен.</span> Финальная стоимость обсуждается индивидуально с каждым клиентом.
                     </p>
                     <div className="flex items-center gap-3 flex-wrap">
-                      <a
-                        href="tel:+79966298557"
-                        className="flex items-center gap-2 group"
-                      >
+                      <a href="tel:+79966298557" className="flex items-center gap-2 group">
                         <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
                           style={{ background: "rgba(201,168,76,0.15)", border: "1px solid rgba(201,168,76,0.3)" }}>
                           <Icon name="Phone" size={11} className="text-[var(--gold)]" />
@@ -539,7 +505,6 @@ const OrderCalculator = () => {
                           +7 (996) 629-85-57
                         </span>
                       </a>
-
                       <a
                         href="https://max.ru/aluminium_elit"
                         target="_blank"
