@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
 const CAN_IMAGE = "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/9c4f7391-d4f5-4b20-bab3-a999303ae0db.jpg";
@@ -127,6 +127,7 @@ const Checkbox = ({ checked, onClick, label }: { checked: boolean; onClick: () =
 
 const OrderCalculator = () => {
   const [open, setOpen] = useState(false);
+  const resultRef = useRef<HTMLDivElement>(null);
   const [canType, setCanType] = useState<CanType>("blank");
   const [volume, setVolume] = useState<CanVolume>("330");
   const [quantity, setQuantity] = useState<string>("100000");
@@ -198,6 +199,9 @@ const OrderCalculator = () => {
       qty,
       colorCount,
     });
+    setTimeout(() => {
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
   };
 
   const fmt = (n: number) =>
@@ -424,6 +428,7 @@ const OrderCalculator = () => {
               {/* Результат */}
               {result && (
                 <div
+                  ref={resultRef}
                   className="rounded-xl p-5 space-y-4"
                   style={{
                     background: "rgba(160,210,255,0.04)",
