@@ -34,14 +34,19 @@
 
     --radius: 0.25rem;
 
-    /* Brand tokens */
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-dim: #8a6e2f;
-    --obsidian: #0a0a0a;
-    --graphite: #111111;
-    --steel: #1a1a1a;
-    --mist: #e8e0d0;
+    /* Brand tokens — BMW 760 style */
+    --gold: #9a8c7a;
+    --gold-light: #c8bfb0;
+    --gold-dim: #5c5248;
+    --obsidian: #080808;
+    --graphite: #0e0e0e;
+    --steel: #161616;
+    --mist: #dcd8d2;
+
+    /* Pearl white accent */
+    --pearl: #f0ece6;
+    --pearl-dim: #b8b2a8;
+    --pearl-glow: rgba(240, 236, 230, 0.07);
   }
 }
 
@@ -80,10 +85,12 @@
 .text-gold-gradient {
   background: linear-gradient(
     135deg,
-    var(--gold-dim) 0%,
-    var(--gold) 40%,
-    var(--gold-light) 60%,
-    var(--gold) 100%
+    #4a4540 0%,
+    #8a8278 30%,
+    #c8bfb0 55%,
+    #e8e4de 65%,
+    #9a9088 80%,
+    #5c5550 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -103,22 +110,28 @@
 /* Dramatic glow */
 .glow-gold {
   box-shadow:
-    0 0 60px rgba(201, 168, 76, 0.15),
-    0 0 120px rgba(201, 168, 76, 0.05);
+    0 0 60px rgba(200, 191, 176, 0.1),
+    0 0 120px rgba(200, 191, 176, 0.04),
+    0 0 200px rgba(240, 236, 230, 0.03);
 }
 
 /* Separator line */
 .gold-line {
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--pearl-dim),
+    transparent
+  );
   height: 1px;
 }
 
 /* Stat counter card */
 .stat-card {
-  border: 1px solid rgba(201, 168, 76, 0.2);
+  border: 1px solid rgba(200, 191, 176, 0.15);
   background: linear-gradient(
     135deg,
-    rgba(201, 168, 76, 0.05) 0%,
+    rgba(240, 236, 230, 0.04) 0%,
     transparent 100%
   );
   backdrop-filter: blur(10px);
@@ -134,8 +147,8 @@
 .can-card:hover {
   transform: translateY(-8px);
   box-shadow:
-    0 30px 60px rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(201, 168, 76, 0.1);
+    0 30px 80px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(200, 191, 176, 0.06);
 }
 
 /* Scroll reveal animation */
@@ -179,40 +192,45 @@
 .shimmer-text {
   background: linear-gradient(
     90deg,
-    var(--gold-dim) 0%,
-    var(--gold-light) 50%,
-    var(--gold-dim) 100%
+    #4a4540 0%,
+    #9a9088 30%,
+    #e8e4de 50%,
+    #9a9088 70%,
+    #4a4540 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 3s linear infinite;
+  animation: shimmer 4s linear infinite;
 }
 
 /* Nav */
 .nav-blur {
-  backdrop-filter: blur(20px);
-  background: rgba(10, 10, 10, 0.85);
-  border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+  backdrop-filter: blur(24px) saturate(1.2);
+  background: rgba(8, 8, 8, 0.9);
+  border-bottom: 1px solid rgba(200, 191, 176, 0.08);
 }
 
 /* Button premium */
 .btn-gold {
   background: linear-gradient(
     135deg,
-    var(--gold-dim),
-    var(--gold),
-    var(--gold-light)
+    #3a3530 0%,
+    #6a6258 35%,
+    #c8bfb0 55%,
+    #e8e4de 65%,
+    #9a9088 80%,
+    #4a4540 100%
   );
-  color: var(--obsidian);
+  color: #080808;
   font-family:
     "Inter",
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-size: 0.75rem;
   transition: all 0.3s ease;
@@ -227,11 +245,11 @@
   background: linear-gradient(
     135deg,
     transparent,
-    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.2),
     transparent
   );
   transform: translateX(-100%);
-  transition: transform 0.5s ease;
+  transition: transform 0.6s ease;
 }
 
 .btn-gold:hover::after {
@@ -239,8 +257,8 @@
 }
 
 .btn-outline-gold {
-  border: 1px solid rgba(201, 168, 76, 0.5);
-  color: var(--gold);
+  border: 1px solid rgba(200, 191, 176, 0.35);
+  color: var(--pearl-dim);
   font-family:
     "Inter",
     -apple-system,
@@ -254,8 +272,9 @@
 }
 
 .btn-outline-gold:hover {
-  border-color: var(--gold);
-  background: rgba(201, 168, 76, 0.08);
+  border-color: rgba(200, 191, 176, 0.6);
+  background: rgba(200, 191, 176, 0.06);
+  color: var(--pearl);
 }
 
 /* Horizontal scroll section */
