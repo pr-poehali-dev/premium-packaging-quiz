@@ -16,15 +16,15 @@ interface Price {
 const PRICES: Record<CanType, Record<CanVolume, Record<Factory, { from100k: Price; from300k: Price; matte: Price }>>> = {
   blank: {
     "250": {
-      arnest: { from100k: { noVat: 15.40, withVat: 18.79 }, from300k: { noVat: 13.41, withVat: 16.36 }, matte: { noVat: 0.37, withVat: 0.45 } },
-      kenpak: { from100k: { noVat: 15.40, withVat: 18.79 }, from300k: { noVat: 13.41, withVat: 16.36 }, matte: { noVat: 0.37, withVat: 0.45 } },
+      arnest: { from100k: { noVat: 15.40, withVat: 18.79 }, from300k: { noVat: 13.41, withVat: 16.36 }, matte: { noVat: 0, withVat: 0 } },
+      kenpak: { from100k: { noVat: 15.40, withVat: 18.79 }, from300k: { noVat: 13.41, withVat: 16.36 }, matte: { noVat: 0, withVat: 0 } },
     },
     "330": {
-      arnest: { from100k: { noVat: 12.90, withVat: 15.74 }, from300k: { noVat: 12.04, withVat: 14.69 }, matte: { noVat: 0.37, withVat: 0.45 } },
+      arnest: { from100k: { noVat: 12.90, withVat: 15.74 }, from300k: { noVat: 12.04, withVat: 14.69 }, matte: { noVat: 0, withVat: 0 } },
       kenpak: { from100k: { noVat: 11.23, withVat: 13.70 }, from300k: { noVat: 10.93, withVat: 13.33 }, matte: { noVat: 0, withVat: 0 } },
     },
     "449": {
-      arnest: { from100k: { noVat: 15.40, withVat: 18.79 }, from300k: { noVat: 13.41, withVat: 16.36 }, matte: { noVat: 0.37, withVat: 0.45 } },
+      arnest: { from100k: { noVat: 15.40, withVat: 18.79 }, from300k: { noVat: 13.41, withVat: 16.36 }, matte: { noVat: 0, withVat: 0 } },
       kenpak: { from100k: { noVat: 12.06, withVat: 14.71 }, from300k: { noVat: 11.74, withVat: 14.32 }, matte: { noVat: 0, withVat: 0 } },
     },
   },
@@ -59,10 +59,10 @@ const LID_PRICES: Record<Factory, Record<LidColor, Price>> = {
   },
 };
 
-const DESIGN_SETUP: Record<Factory, Price> = {
-  arnest: { noVat: 29166.67, withVat: 35583.34 },
-  kenpak: { noVat: 77869.00, withVat: 95000.18 },
-};
+// АРНЕСТ: цена за 1 цвет с НДС = 35 583 / 8 ≈ 4 448 ₽
+// КЭН-ПАК: фиксированная ставка 95 000 ₽ до 8 цветов
+const DESIGN_PER_COLOR_ARNEST_VAT = 4448;
+const DESIGN_KENPAK_VAT = 95000.18;
 
 const CITIES: Record<Factory, string[]> = {
   arnest: ["Наро-Фоминск", "Всеволожск"],
@@ -82,7 +82,24 @@ interface CalcResult {
   pricePerCan: number;
   factory: Factory;
   city: string;
+  colorCount: number;
 }
+
+const Checkbox = ({ checked, onClick, label }: { checked: boolean; onClick: () => void; label: string }) => (
+  <label className="flex items-center gap-3 cursor-pointer">
+    <div
+      onClick={onClick}
+      className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 transition-all"
+      style={{
+        border: `1px solid ${checked ? "rgba(201,168,76,0.6)" : "rgba(201,168,76,0.2)"}`,
+        background: checked ? "rgba(201,168,76,0.2)" : "transparent",
+      }}
+    >
+      {checked && <Icon name="Check" size={12} className="text-[var(--gold)]" />}
+    </div>
+    <span className="text-xs text-[var(--mist)]">{label}</span>
+  </label>
+);
 
 const OrderCalculator = () => {
   const [open, setOpen] = useState(false);
@@ -94,12 +111,30 @@ const OrderCalculator = () => {
   const [matte, setMatte] = useState(false);
   const [lid, setLid] = useState<LidColor>("none");
   const [withDesign, setWithDesign] = useState(false);
+  const [colorCount, setColorCount] = useState(4);
   const [result, setResult] = useState<CalcResult | null>(null);
+
+  const isLitho = canType === "litho";
 
   const handleFactoryChange = (f: Factory) => {
     setFactory(f);
     setCity(CITIES[f][0]);
     if (f === "kenpak" && lid === "gold") setLid("none");
+    if (f === "kenpak") setMatte(false);
+  };
+
+  const handleTypeChange = (t: CanType) => {
+    setCanType(t);
+    if (t === "blank") {
+      setMatte(false);
+      setWithDesign(false);
+    }
+  };
+
+  const designCost = () => {
+    if (!withDesign || !isLitho) return 0;
+    if (factory === "arnest") return DESIGN_PER_COLOR_ARNEST_VAT * colorCount;
+    return DESIGN_KENPAK_VAT;
   };
 
   const calculate = () => {
@@ -108,11 +143,10 @@ const OrderCalculator = () => {
 
     const priceSet = PRICES[canType][volume][factory];
     const basePrice = qty >= 300000 ? priceSet.from300k.withVat : priceSet.from100k.withVat;
-    const matteAdd = matte ? priceSet.matte.withVat : 0;
+    const matteAdd = isLitho && matte ? priceSet.matte.withVat : 0;
     const canTotal = (basePrice + matteAdd) * qty;
-
     const lidTotal = lid !== "none" ? LID_PRICES[factory][lid].withVat * qty : 0;
-    const designTotal = withDesign ? DESIGN_SETUP[factory].withVat : 0;
+    const designTotal = designCost();
     const total = canTotal + lidTotal + designTotal;
 
     setResult({
@@ -123,30 +157,30 @@ const OrderCalculator = () => {
       pricePerCan: total / qty,
       factory,
       city,
+      colorCount,
     });
   };
 
   const fmt = (n: number) =>
     n.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " ₽";
 
+  const btnActive = "bg-[rgba(201,168,76,0.15)] text-[var(--gold)] border border-[rgba(201,168,76,0.4)]";
+  const btnIdle = "border border-[rgba(201,168,76,0.1)] text-muted-foreground hover:border-[rgba(201,168,76,0.3)]";
+
   return (
     <>
-      {/* Floating matte black can button */}
-      <div className="fixed bottom-8 right-8 z-40 flex flex-col items-center gap-2">
+      {/* Floating can button */}
+      <div className="fixed bottom-8 right-8 z-40">
         <button
           onClick={() => setOpen(true)}
-          className="relative group focus:outline-none"
+          className="relative focus:outline-none"
           aria-label="Расчёт стоимости заказа"
         >
           <div
             className="btn-bmw-pulse rounded-2xl overflow-hidden w-24 h-36 relative"
             style={{ border: "1px solid rgba(160,210,255,0.7)" }}
           >
-            <img
-              src={CAN_IMAGE}
-              alt="Расчёт стоимости"
-              className="w-full h-full object-cover"
-            />
+            <img src={CAN_IMAGE} alt="Расчёт стоимости" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/40 flex items-end justify-center pb-2">
               <span
                 className="text-[8px] font-bold uppercase tracking-wider text-center leading-tight px-1"
@@ -177,10 +211,7 @@ const OrderCalculator = () => {
             {/* Header */}
             <div
               className="sticky top-0 z-10 flex items-center justify-between px-6 py-5"
-              style={{
-                background: "var(--obsidian)",
-                borderBottom: "1px solid rgba(160,210,255,0.15)",
-              }}
+              style={{ background: "var(--obsidian)", borderBottom: "1px solid rgba(160,210,255,0.15)" }}
             >
               <div>
                 <h2 className="font-display text-xl text-gold-gradient">Расчёт стоимости</h2>
@@ -200,11 +231,8 @@ const OrderCalculator = () => {
                 <label className="text-[10px] uppercase tracking-wider text-[var(--gold)] block mb-2">Тип банки</label>
                 <div className="grid grid-cols-2 gap-2">
                   {([["blank", "Обезличенная"], ["litho", "Литография"]] as [CanType, string][]).map(([v, label]) => (
-                    <button
-                      key={v}
-                      onClick={() => setCanType(v)}
-                      className={`py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${canType === v ? "bg-[rgba(201,168,76,0.15)] text-[var(--gold)] border border-[rgba(201,168,76,0.4)]" : "border border-[rgba(201,168,76,0.1)] text-muted-foreground hover:border-[rgba(201,168,76,0.3)]"}`}
-                    >
+                    <button key={v} onClick={() => handleTypeChange(v)}
+                      className={`py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${canType === v ? btnActive : btnIdle}`}>
                       {label}
                     </button>
                   ))}
@@ -216,11 +244,8 @@ const OrderCalculator = () => {
                 <label className="text-[10px] uppercase tracking-wider text-[var(--gold)] block mb-2">Объём банки</label>
                 <div className="grid grid-cols-3 gap-2">
                   {([["250", "250 мл"], ["330", "330 мл"], ["449", "449 мл"]] as [CanVolume, string][]).map(([v, label]) => (
-                    <button
-                      key={v}
-                      onClick={() => setVolume(v)}
-                      className={`py-2.5 rounded-lg text-xs font-semibold transition-all ${volume === v ? "bg-[rgba(201,168,76,0.15)] text-[var(--gold)] border border-[rgba(201,168,76,0.4)]" : "border border-[rgba(201,168,76,0.1)] text-muted-foreground hover:border-[rgba(201,168,76,0.3)]"}`}
-                    >
+                    <button key={v} onClick={() => setVolume(v)}
+                      className={`py-2.5 rounded-lg text-xs font-semibold transition-all ${volume === v ? btnActive : btnIdle}`}>
                       {label}
                     </button>
                   ))}
@@ -238,7 +263,7 @@ const OrderCalculator = () => {
                   className="w-full px-4 py-3 rounded-lg text-sm text-[var(--mist)] placeholder:text-muted-foreground focus:outline-none"
                   style={{ background: "var(--steel)", border: "1px solid rgba(201,168,76,0.2)" }}
                 />
-                {parseInt(quantity) < 100000 && quantity !== "" && (
+                {quantity !== "" && parseInt(quantity) < 100000 && (
                   <p className="text-[10px] text-red-400 mt-1">Минимальный заказ — 100 000 шт</p>
                 )}
               </div>
@@ -248,11 +273,8 @@ const OrderCalculator = () => {
                 <label className="text-[10px] uppercase tracking-wider text-[var(--gold)] block mb-2">Завод-производитель</label>
                 <div className="grid grid-cols-2 gap-2">
                   {(["arnest", "kenpak"] as Factory[]).map((f) => (
-                    <button
-                      key={f}
-                      onClick={() => handleFactoryChange(f)}
-                      className={`py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${factory === f ? "bg-[rgba(201,168,76,0.15)] text-[var(--gold)] border border-[rgba(201,168,76,0.4)]" : "border border-[rgba(201,168,76,0.1)] text-muted-foreground hover:border-[rgba(201,168,76,0.3)]"}`}
-                    >
+                    <button key={f} onClick={() => handleFactoryChange(f)}
+                      className={`py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${factory === f ? btnActive : btnIdle}`}>
                       {FACTORY_NAMES[f]}
                     </button>
                   ))}
@@ -264,44 +286,62 @@ const OrderCalculator = () => {
                 <label className="text-[10px] uppercase tracking-wider text-[var(--gold)] block mb-2">Город вывоза</label>
                 <div className="grid grid-cols-2 gap-2">
                   {CITIES[factory].map((c) => (
-                    <button
-                      key={c}
-                      onClick={() => setCity(c)}
-                      className={`py-2.5 rounded-lg text-xs font-semibold transition-all ${city === c ? "bg-[rgba(160,210,255,0.1)] border text-[#c8e8ff]" : "border border-[rgba(201,168,76,0.1)] text-muted-foreground hover:border-[rgba(201,168,76,0.3)]"}`}
-                      style={city === c ? { borderColor: "rgba(160,210,255,0.5)" } : {}}
-                    >
+                    <button key={c} onClick={() => setCity(c)}
+                      className={`py-2.5 rounded-lg text-xs font-semibold transition-all ${city === c
+                        ? "bg-[rgba(160,210,255,0.1)] border text-[#c8e8ff]"
+                        : btnIdle}`}
+                      style={city === c ? { borderColor: "rgba(160,210,255,0.5)" } : {}}>
                       {c}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Доп. опции */}
-              <div>
-                <label className="text-[10px] uppercase tracking-wider text-[var(--gold)] block mb-2">Дополнительно</label>
-                <div className="space-y-2">
-                  <label className="flex items-center gap-3 cursor-pointer group">
-                    <div
-                      onClick={() => setMatte(!matte)}
-                      className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 transition-all ${matte ? "bg-[rgba(201,168,76,0.3)] border-[rgba(201,168,76,0.6)]" : "border-[rgba(201,168,76,0.2)]"}`}
-                      style={{ border: "1px solid" }}
-                    >
-                      {matte && <Icon name="Check" size={12} className="text-[var(--gold)]" />}
-                    </div>
-                    <span className="text-xs text-[var(--mist)]">Матовый цвет (+0,45 ₽/шт с НДС)</span>
-                  </label>
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <div
+              {/* Дополнительно — только для литографии */}
+              {isLitho && (
+                <div>
+                  <label className="text-[10px] uppercase tracking-wider text-[var(--gold)] block mb-2">Дополнительно</label>
+                  <div className="space-y-3">
+                    {/* Матовое покрытие — только АРНЕСТ */}
+                    {factory === "arnest" && (
+                      <Checkbox
+                        checked={matte}
+                        onClick={() => setMatte(!matte)}
+                        label="Матовый цвет (+0,45 ₽/шт с НДС)"
+                      />
+                    )}
+
+                    {/* Заведение дизайна */}
+                    <Checkbox
+                      checked={withDesign}
                       onClick={() => setWithDesign(!withDesign)}
-                      className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 transition-all ${withDesign ? "bg-[rgba(201,168,76,0.3)]" : ""}`}
-                      style={{ border: "1px solid", borderColor: withDesign ? "rgba(201,168,76,0.6)" : "rgba(201,168,76,0.2)" }}
-                    >
-                      {withDesign && <Icon name="Check" size={12} className="text-[var(--gold)]" />}
-                    </div>
-                    <span className="text-xs text-[var(--mist)]">Заведение дизайна ({factory === "arnest" ? "35 583" : "95 000"} ₽ с НДС)</span>
-                  </label>
+                      label={factory === "arnest"
+                        ? `Заведение дизайна (${colorCount} цв. × 4 448 ₽ = ${(colorCount * DESIGN_PER_COLOR_ARNEST_VAT).toLocaleString("ru-RU")} ₽ с НДС)`
+                        : "Заведение дизайна (до 8 цветов — 95 000 ₽ с НДС)"}
+                    />
+
+                    {/* Выбор цветов — только АРНЕСТ */}
+                    {factory === "arnest" && withDesign && (
+                      <div className="pl-8">
+                        <label className="text-[9px] uppercase tracking-wider text-muted-foreground block mb-2">
+                          Количество цветов
+                        </label>
+                        <div className="flex gap-1.5 flex-wrap">
+                          {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                            <button
+                              key={n}
+                              onClick={() => setColorCount(n)}
+                              className={`w-8 h-8 rounded text-xs font-semibold transition-all ${colorCount === n ? btnActive : btnIdle}`}
+                            >
+                              {n}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Крышки */}
               <div>
@@ -317,7 +357,7 @@ const OrderCalculator = () => {
                       key={v}
                       onClick={() => setLid(v)}
                       disabled={v === "gold" && factory === "kenpak"}
-                      className={`py-2.5 rounded-lg text-xs font-semibold transition-all disabled:opacity-30 disabled:cursor-not-allowed ${lid === v ? "bg-[rgba(201,168,76,0.15)] text-[var(--gold)] border border-[rgba(201,168,76,0.4)]" : "border border-[rgba(201,168,76,0.1)] text-muted-foreground hover:border-[rgba(201,168,76,0.3)]"}`}
+                      className={`py-2.5 rounded-lg text-xs font-semibold transition-all disabled:opacity-30 disabled:cursor-not-allowed ${lid === v ? btnActive : btnIdle}`}
                     >
                       {label}
                     </button>
@@ -325,10 +365,10 @@ const OrderCalculator = () => {
                 </div>
               </div>
 
-              {/* Кнопка расчёта */}
+              {/* Кнопка */}
               <button
                 onClick={calculate}
-                disabled={parseInt(quantity) < 100000 || !quantity}
+                disabled={!quantity || parseInt(quantity) < 100000}
                 className="btn-bmw-pulse w-full py-4 rounded-lg text-sm font-bold uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
                   border: "1px solid rgba(160,210,255,0.7)",
@@ -369,16 +409,15 @@ const OrderCalculator = () => {
                     )}
                     {result.designSetup > 0 && (
                       <div className="flex justify-between">
-                        <span className="text-[11px] text-muted-foreground">Заведение дизайна</span>
+                        <span className="text-[11px] text-muted-foreground">
+                          Заведение дизайна{result.factory === "arnest" ? ` (${result.colorCount} цв.)` : ""}
+                        </span>
                         <span className="text-[11px] text-[var(--mist)]">{fmt(result.designSetup)}</span>
                       </div>
                     )}
                   </div>
 
-                  <div
-                    className="pt-3 mt-1"
-                    style={{ borderTop: "1px solid rgba(160,210,255,0.15)" }}
-                  >
+                  <div className="pt-3 mt-1" style={{ borderTop: "1px solid rgba(160,210,255,0.15)" }}>
                     <div className="flex justify-between items-baseline">
                       <span className="text-xs uppercase tracking-wider text-muted-foreground">Итого с НДС</span>
                       <span className="font-display text-2xl text-gold-gradient">{fmt(result.total)}</span>
@@ -390,7 +429,7 @@ const OrderCalculator = () => {
                   </div>
 
                   <p className="text-[9px] text-muted-foreground pt-2 leading-relaxed">
-                    * Предварительный расчёт. Точная стоимость — по запросу у менеджера. Не включает доставку.
+                    * Предварительный расчёт. Не включает доставку. Не является публичной офертой.
                   </p>
                 </div>
               )}

@@ -44,15 +44,7 @@ const Navbar = () => {
             ))}
           </div>
 
-          <div className="hidden lg:block">
-            <a
-              href="#catalog"
-              onClick={(e) => handleNavClick(e, "#catalog")}
-              className="btn-gold px-6 py-2.5 rounded"
-            >
-              Цены
-            </a>
-          </div>
+
 
           <button
             className="lg:hidden text-[var(--gold)] p-2"
@@ -77,13 +69,7 @@ const Navbar = () => {
                 {link.label}
               </a>
             ))}
-            <a
-              href="#catalog"
-              onClick={(e) => handleNavClick(e, "#catalog")}
-              className="btn-gold px-8 py-3 rounded mt-4"
-            >
-              Цены
-            </a>
+
           </div>
         </div>
       )}

@@ -52,9 +52,14 @@ const Footer = () => {
 
         <div className="gold-line w-full mb-8" />
 
-        <p className="text-muted-foreground text-xs text-center tracking-wide">
-          &copy; 2024 Алюминиум Элит. Все права защищены.
-        </p>
+        <div className="text-center space-y-2">
+          <p className="text-muted-foreground text-xs tracking-wide">
+            &copy; 2024 Алюминиум Элит. Все права защищены.
+          </p>
+          <p className="text-muted-foreground/60 text-[10px] tracking-wide">
+            Информация о ценах носит ознакомительный характер и не является публичной офертой.
+          </p>
+        </div>
       </div>
     </footer>
   );
