@@ -135,6 +135,7 @@ const Checkbox = ({ checked, onClick, label }: { checked: boolean; onClick: () =
 const OrderCalculator = () => {
   const [open, setOpen] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const [canType, setCanType] = useState<CanType>("blank");
   const [volume, setVolume] = useState<CanVolume>("330");
   const [quantity, setQuantity] = useState<string>("100000");
@@ -208,7 +209,11 @@ const OrderCalculator = () => {
       kenpak: calcForFactory("kenpak", qty),
     });
     setTimeout(() => {
-      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (resultRef.current && drawerRef.current) {
+        const drawer = drawerRef.current;
+        const resultTop = resultRef.current.offsetTop;
+        drawer.scrollTo({ top: resultTop - 16, behavior: "smooth" });
+      }
     }, 50);
   };
 
@@ -252,7 +257,8 @@ const OrderCalculator = () => {
             onClick={() => { setOpen(false); setResult(null); }}
           />
           <div
-            className="relative w-full max-w-lg h-full overflow-y-auto flex flex-col"
+            ref={drawerRef}
+            className="relative w-full max-w-lg h-full overflow-y-auto overflow-x-hidden flex flex-col"
             style={{
               background: "var(--obsidian)",
               borderLeft: "1px solid rgba(160,210,255,0.3)",
