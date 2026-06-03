@@ -62,7 +62,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/ef2da24d-ba56-4b2c-be26-ab198e925b16.png"
+          src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/150be4a2-2ab9-409a-84f5-69180ba0cdef.png"
           alt="Премиальные алюминиевые банки"
           className="w-full h-full object-cover"
         />
@@ -83,47 +83,15 @@ const HeroSection = () => {
           className="opacity-0 animate-fade-up font-display text-4xl md:text-6xl lg:text-7xl text-white leading-[1.08] mb-2 tracking-tight"
           style={{ animationDelay: "0.4s" }}
         >
-          Ваш продукт в этой банке —
+          Алюминиевые банки
         </h1>
 
         <h2
-          className="opacity-0 animate-fade-up font-display text-4xl md:text-6xl lg:text-7xl leading-[1.08] mb-6 tracking-tight"
-          style={{ animationDelay: "0.6s", color: "var(--gold)" }}
+          className="opacity-0 animate-fade-up font-display text-4xl md:text-6xl lg:text-7xl text-white leading-[1.08] mb-10 tracking-tight"
+          style={{ animationDelay: "0.6s" }}
         >
-          он уже премиум
+          250 мл · 330 мл · 450 мл
         </h2>
-
-        {/* Карточки преимуществ */}
-        <div
-          className="opacity-0 animate-fade-up grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-3xl mb-8"
-          style={{ animationDelay: "0.75s" }}
-        >
-          {[
-            { icon: "ShieldCheck", title: "Контроль качества", desc: "Каждая партия проходит многоступенчатую проверку" },
-            { icon: "Crosshair", title: "Точность производства", desc: "Допуски ±0.01 мм на каждом этапе" },
-            { icon: "Crown", title: "Премиальная идентичность", desc: "Ваш бренд выглядит дорого с первого взгляда" },
-            { icon: "Globe", title: "Мировые стандарты", desc: "Производство по ISO и международным нормам" },
-          ].map((card, i) => (
-            <div
-              key={i}
-              className="rounded-xl px-4 py-4 flex flex-col items-center text-center gap-2"
-              style={{
-                background: "rgba(10,10,10,0.78)",
-                border: "1px solid rgba(201,168,76,0.25)",
-                backdropFilter: "blur(14px)",
-              }}
-            >
-              <div
-                className="w-9 h-9 rounded-full flex items-center justify-center mb-1"
-                style={{ background: "rgba(201,168,76,0.12)", border: "1px solid rgba(201,168,76,0.3)" }}
-              >
-                <Icon name={card.icon} size={17} className="text-[var(--gold)]" />
-              </div>
-              <span className="text-white text-xs font-semibold leading-tight">{card.title}</span>
-              <span className="text-[10px] text-muted-foreground leading-snug">{card.desc}</span>
-            </div>
-          ))}
-        </div>
 
         {/* Блок акции с таймером */}
         <div
