@@ -428,7 +428,29 @@ const OrderCalculator = () => {
                     </div>
                   </div>
 
-                  <p className="text-[9px] text-muted-foreground pt-2 leading-relaxed">
+                  {/* Торг и контакт */}
+                  <div
+                    className="rounded-lg px-4 py-3 mt-1 space-y-2"
+                    style={{ background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.2)" }}
+                  >
+                    <p className="text-[11px] text-[var(--mist)] leading-relaxed">
+                      Указаны базовые цены — <span className="text-[var(--gold)] font-semibold">торг уместен.</span> Финальная стоимость обсуждается индивидуально с каждым клиентом.
+                    </p>
+                    <a
+                      href="tel:+79966298557"
+                      className="flex items-center gap-2 group w-fit"
+                    >
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ background: "rgba(201,168,76,0.15)", border: "1px solid rgba(201,168,76,0.3)" }}>
+                        <Icon name="Phone" size={11} className="text-[var(--gold)]" />
+                      </div>
+                      <span className="text-sm font-semibold text-gold-gradient group-hover:opacity-80 transition-opacity">
+                        +7 (996) 629-85-57
+                      </span>
+                    </a>
+                  </div>
+
+                  <p className="text-[9px] text-muted-foreground leading-relaxed">
                     * Предварительный расчёт. Не включает доставку. Не является публичной офертой.
                   </p>
                 </div>
