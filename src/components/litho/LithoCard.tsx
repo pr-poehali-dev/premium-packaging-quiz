@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
-import { lithoProducts, specRows } from "./LithoData";
+import { lithoProducts, specRows, FactoryPricing } from "./LithoData";
 
 const PHONE = "+7 (996) 629-85-57";
 const PHONE_HREF = "tel:+79966298557";
@@ -37,12 +37,74 @@ const PhoneModal = ({ onClose }: { onClose: () => void }) => (
   </div>
 );
 
+const PricingBlock = ({ pricing }: { pricing: FactoryPricing[] }) => {
+  const [activeFactory, setActiveFactory] = useState(0);
+  const current = pricing[activeFactory];
+
+  return (
+    <div
+      className="rounded-lg overflow-hidden mt-6"
+      style={{ border: "1px solid rgba(201,168,76,0.2)", background: "rgba(201,168,76,0.03)" }}
+    >
+      {pricing.length > 1 && (
+        <div className="flex border-b border-[rgba(201,168,76,0.15)]">
+          {pricing.map((p, i) => (
+            <button
+              key={p.factory}
+              onClick={() => setActiveFactory(i)}
+              className={`flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                activeFactory === i
+                  ? "bg-[rgba(201,168,76,0.12)] text-[var(--gold)]"
+                  : "text-muted-foreground hover:text-[var(--mist)]"
+              }`}
+            >
+              {p.factory}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="p-4">
+        <div className="flex items-center gap-1.5 mb-3">
+          <Icon name="MapPin" size={11} className="text-[var(--gold)] flex-shrink-0" />
+          <span className="text-[10px] text-muted-foreground">{current.city}</span>
+        </div>
+
+        <div className="space-y-0 mb-3">
+          <div className="grid grid-cols-[1fr_auto_auto] gap-x-3 pb-1.5 mb-1 border-b border-[rgba(201,168,76,0.1)]">
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground">Условие</span>
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground text-right">Без НДС</span>
+            <span className="text-[9px] uppercase tracking-wider text-[var(--gold)] text-right">С НДС 22%</span>
+          </div>
+          {current.rows.map((row, i) => (
+            <div key={i} className="grid grid-cols-[1fr_auto_auto] gap-x-3 py-1.5 border-b border-[rgba(255,255,255,0.04)]">
+              <span className="text-[10px] text-[var(--mist)] leading-snug">{row.label}</span>
+              <span className="text-[10px] text-muted-foreground text-right whitespace-nowrap">{row.noVat}</span>
+              <span className="text-[10px] text-white font-semibold text-right whitespace-nowrap">{row.withVat}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="space-y-1 pt-1">
+          {current.extras.map((e, i) => (
+            <div key={i} className="flex items-start justify-between gap-2">
+              <span className="text-[9px] text-muted-foreground leading-snug">{e.label}</span>
+              <span className="text-[9px] text-[var(--gold)] text-right whitespace-nowrap font-medium">{e.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 interface LithoCardProps {
   product: (typeof lithoProducts)[number];
 }
 
 const LithoCard = ({ product }: LithoCardProps) => {
   const [showPhone, setShowPhone] = useState(false);
+  const [showPrices, setShowPrices] = useState(false);
 
   return (
     <div className="can-card bg-[var(--obsidian)] border border-[rgba(201,168,76,0.15)] rounded-lg overflow-hidden flex flex-col relative">
@@ -91,6 +153,25 @@ const LithoCard = ({ product }: LithoCardProps) => {
             </div>
           ))}
         </div>
+
+        <button
+          onClick={() => setShowPrices(!showPrices)}
+          className={`mt-5 flex items-center justify-between w-full px-4 py-3 rounded-lg transition-all duration-300 ${!showPrices ? "btn-bmw-pulse" : ""}`}
+          style={{
+            background: showPrices ? "rgba(180, 220, 255, 0.08)" : "rgba(180, 220, 255, 0.04)",
+            border: "1px solid rgba(160, 210, 255, 0.7)",
+            boxShadow: showPrices
+              ? "0 0 18px rgba(160, 210, 255, 0.35), inset 0 0 12px rgba(160, 210, 255, 0.06)"
+              : undefined,
+          }}
+        >
+          <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#c8e8ff" }}>
+            Цены · июнь 2026
+          </span>
+          <Icon name={showPrices ? "ChevronUp" : "ChevronDown"} size={14} style={{ color: "#c8e8ff" }} />
+        </button>
+
+        {showPrices && <PricingBlock pricing={product.pricing} />}
 
         <div className="gold-line w-full mt-6 mb-6" />
 

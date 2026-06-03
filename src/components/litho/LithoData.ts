@@ -1,3 +1,16 @@
+export interface PriceRow {
+  label: string;
+  noVat: string;
+  withVat: string;
+}
+
+export interface FactoryPricing {
+  factory: string;
+  city: string;
+  rows: PriceRow[];
+  extras: { label: string; value: string }[];
+}
+
 export const lithoProducts = [
   {
     name: "Банка с литографией sleek",
@@ -11,6 +24,21 @@ export const lithoProducts = [
     colors: "До 8 цветов печати",
     icon: "Zap",
     popular: false,
+    pricing: [
+      {
+        factory: "АРНЕСТ",
+        city: "Наро-Фоминск, Всеволожск",
+        rows: [
+          { label: "от 100 000 шт, литография", noVat: "15,40 ₽", withVat: "18,79 ₽" },
+          { label: "от 330 000 шт, литография", noVat: "13,41 ₽", withVat: "16,36 ₽" },
+          { label: "от 330 000 шт, доплата за матовый цвет", noVat: "0,37 ₽", withVat: "0,45 ₽" },
+        ],
+        extras: [
+          { label: "Заведение дизайна", value: "35 583 ₽ с НДС" },
+          { label: "Наценка за невозврат тары", value: "1,43 ₽ с НДС" },
+        ],
+      },
+    ] as FactoryPricing[],
   },
   {
     name: "Банка с литографией sleek",
@@ -24,6 +52,33 @@ export const lithoProducts = [
     colors: "До 8 цветов печати",
     icon: "Star",
     popular: true,
+    pricing: [
+      {
+        factory: "АРНЕСТ",
+        city: "Всеволожск",
+        rows: [
+          { label: "от 100 000 шт, литография", noVat: "12,90 ₽", withVat: "15,74 ₽" },
+          { label: "от 330 000 шт, литография", noVat: "12,04 ₽", withVat: "14,69 ₽" },
+          { label: "от 330 000 шт, доплата за матовый цвет", noVat: "0,37 ₽", withVat: "0,45 ₽" },
+        ],
+        extras: [
+          { label: "Заведение дизайна", value: "35 583 ₽ с НДС" },
+          { label: "Наценка за невозврат тары", value: "1,43 ₽ с НДС" },
+        ],
+      },
+      {
+        factory: "КЭН-ПАК",
+        city: "Новочеркасск",
+        rows: [
+          { label: "от 300 000 шт, литография", noVat: "11,13 ₽", withVat: "13,58 ₽" },
+          { label: "от 300 000 шт, литография матовая", noVat: "11,13 ₽", withVat: "13,58 ₽" },
+        ],
+        extras: [
+          { label: "Заведение дизайна (до 8 цветов)", value: "95 000 ₽ с НДС" },
+          { label: "Наценка за невозврат тары", value: "1,27 ₽ с НДС" },
+        ],
+      },
+    ] as FactoryPricing[],
   },
   {
     name: "Литография",
@@ -37,6 +92,21 @@ export const lithoProducts = [
     colors: "До 8 цветов печати",
     icon: "Maximize",
     popular: false,
+    pricing: [
+      {
+        factory: "АРНЕСТ",
+        city: "Наро-Фоминск, Всеволожск",
+        rows: [
+          { label: "от 100 000 шт, литография", noVat: "15,40 ₽", withVat: "18,79 ₽" },
+          { label: "от 330 000 шт, литография", noVat: "13,41 ₽", withVat: "16,36 ₽" },
+          { label: "от 330 000 шт, доплата за матовый цвет", noVat: "0,37 ₽", withVat: "0,45 ₽" },
+        ],
+        extras: [
+          { label: "Заведение дизайна", value: "35 583 ₽ с НДС" },
+          { label: "Наценка за невозврат тары", value: "1,43 ₽ с НДС" },
+        ],
+      },
+    ] as FactoryPricing[],
   },
 ];
 
