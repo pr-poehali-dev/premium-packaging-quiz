@@ -102,9 +102,10 @@ const HeroSection = () => {
             className="rounded-2xl px-6 py-5 border"
             style={{
               background: saleState.active
-                ? "linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(232,201,122,0.06) 100%)"
-                : "rgba(255,255,255,0.03)",
-              borderColor: saleState.active ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.1)",
+                ? "linear-gradient(135deg, rgba(10,10,10,0.85) 0%, rgba(30,22,5,0.9) 100%)"
+                : "rgba(10,10,10,0.82)",
+              borderColor: saleState.active ? "rgba(201,168,76,0.5)" : "rgba(255,255,255,0.15)",
+              backdropFilter: "blur(16px)",
             }}
           >
             {saleState.active ? (
