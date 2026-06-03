@@ -436,18 +436,36 @@ const OrderCalculator = () => {
                     <p className="text-[11px] text-[var(--mist)] leading-relaxed">
                       Указаны базовые цены — <span className="text-[var(--gold)] font-semibold">торг уместен.</span> Финальная стоимость обсуждается индивидуально с каждым клиентом.
                     </p>
-                    <a
-                      href="tel:+79966298557"
-                      className="flex items-center gap-2 group w-fit"
-                    >
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
-                        style={{ background: "rgba(201,168,76,0.15)", border: "1px solid rgba(201,168,76,0.3)" }}>
-                        <Icon name="Phone" size={11} className="text-[var(--gold)]" />
-                      </div>
-                      <span className="text-sm font-semibold text-gold-gradient group-hover:opacity-80 transition-opacity">
-                        +7 (996) 629-85-57
-                      </span>
-                    </a>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <a
+                        href="tel:+79966298557"
+                        className="flex items-center gap-2 group"
+                      >
+                        <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                          style={{ background: "rgba(201,168,76,0.15)", border: "1px solid rgba(201,168,76,0.3)" }}>
+                          <Icon name="Phone" size={11} className="text-[var(--gold)]" />
+                        </div>
+                        <span className="text-sm font-semibold text-gold-gradient group-hover:opacity-80 transition-opacity">
+                          +7 (996) 629-85-57
+                        </span>
+                      </a>
+
+                      <a
+                        href="https://max.ru/aluminium_elit"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 group px-3 py-1.5 rounded-lg transition-all"
+                        style={{ background: "rgba(0,119,255,0.1)", border: "1px solid rgba(0,119,255,0.3)" }}
+                      >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" fill="#0077FF"/>
+                          <path d="M16.5 8.5c.2-.7-.2-1-1-1H14c-.7 0-1 .4-1.2 1C12.3 10 11.5 11.5 11 12c-.1.2-.3.2-.3 0V9c0-.7-.2-1-.9-1H8.3c-.5 0-.8.4-.8.8 0 .8 1.2 1 1.3 3.2.1 1.5-.8 3.5-.8 3.5-.3.6 0 .9.6.9h1.5c.7 0 .9-.4 1-.9 0 0 1.4-4 1.5-4.3.1-.3.4-.3.4 0v4.4c0 .6.3.8.8.8h.9c.5 0 .8-.2 1.1-.8C15.8 14.2 17 11.5 16.5 8.5z" fill="white"/>
+                        </svg>
+                        <span className="text-xs font-semibold group-hover:opacity-80 transition-opacity" style={{ color: "#5b9cf6" }}>
+                          Написать в MAX
+                        </span>
+                      </a>
+                    </div>
                   </div>
 
                   <p className="text-[9px] text-muted-foreground leading-relaxed">
