@@ -74,31 +74,24 @@ const HeroSection = () => {
 
       <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-6 max-w-5xl mx-auto pt-20">
 
-        <span
-          className="opacity-0 animate-fade-up uppercase tracking-[0.3em] text-xs text-[var(--gold)] mb-6"
-          style={{ animationDelay: "0.2s" }}
-        >
-          АЛЮМИНИЕВЫЕ БАНКИ
-        </span>
-
         <div
           className="opacity-0 animate-fade-up gold-line w-24 mx-auto mb-10"
-          style={{ animationDelay: "0.4s" }}
+          style={{ animationDelay: "0.2s" }}
         />
 
         <h1
-          className="opacity-0 animate-fade-up font-display text-4xl md:text-6xl lg:text-7xl text-white leading-[1.08] mb-4 tracking-tight"
+          className="opacity-0 animate-fade-up font-display text-4xl md:text-6xl lg:text-7xl text-white leading-[1.08] mb-2 tracking-tight"
+          style={{ animationDelay: "0.4s" }}
+        >
+          Алюминиевые банки
+        </h1>
+
+        <h2
+          className="opacity-0 animate-fade-up font-display text-4xl md:text-6xl lg:text-7xl text-white leading-[1.08] mb-10 tracking-tight"
           style={{ animationDelay: "0.6s" }}
         >
           250 мл · 330 мл · 450 мл
-        </h1>
-
-        <p
-          className="opacity-0 animate-fade-up text-[var(--mist)] text-base md:text-lg max-w-xl mb-10 leading-relaxed opacity-70"
-          style={{ animationDelay: "0.75s" }}
-        >
-          Алюминиевые банки премиум-класса для брендов, которые хотят выделяться
-        </p>
+        </h2>
 
         {/* Блок акции с таймером */}
         <div
