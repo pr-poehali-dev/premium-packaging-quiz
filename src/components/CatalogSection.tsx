@@ -82,15 +82,11 @@ interface FactoryPricing {
 const colorVariantsSleek: ColorVariant[] = [
   { name: "Серебристый", color: "#C0C0C0", image: SLEEK_CAN_IMAGE },
   { name: "Чёрный", color: "#1a1a1a", image: BLACK_CAN_SLEEK },
-  { name: "Красный", color: "#cc2222", image: RED_CAN_SLEEK },
-  { name: "Белый", color: "#f0f0f0", image: WHITE_CAN_SLEEK },
 ];
 
 const colorVariantsStd: ColorVariant[] = [
   { name: "Серебристый", color: "#C0C0C0", image: STD_CAN_IMAGE },
   { name: "Чёрный", color: "#1a1a1a", image: BLACK_CAN_STD },
-  { name: "Красный", color: "#cc2222", image: RED_CAN_STD },
-  { name: "Белый", color: "#f0f0f0", image: WHITE_CAN_STD },
 ];
 
 const products = [
