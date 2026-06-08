@@ -107,19 +107,27 @@ const B2BSection = () => {
             <p className="text-muted-foreground text-sm md:text-base max-w-lg mb-10 leading-relaxed">
               Расскажите о вашем проекте — мы подготовим персональные условия
             </p>
-            <a
-              href="#catalog"
-              onClick={(e) => {
-                e.preventDefault();
-                const target = document.querySelector("#catalog");
-                if (target) {
-                  target.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-              className="btn-gold px-10 py-5 rounded text-sm"
-            >
-              Цены
-            </a>
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent("open-calculator"))}
+                className="btn-gold px-10 py-5 rounded text-sm"
+              >
+                Расчёт стоимости заказа
+              </button>
+              <a
+                href="#catalog"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.querySelector("#catalog");
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+                className="text-sm text-muted-foreground hover:text-[var(--gold)] transition-colors underline underline-offset-4"
+              >
+                Посмотреть цены
+              </a>
+            </div>
           </div>
         </div>
       </div>

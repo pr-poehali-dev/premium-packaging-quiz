@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 
 const CAN_IMAGE = "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/9c4f7391-d4f5-4b20-bab3-a999303ae0db.jpg";
@@ -132,10 +132,21 @@ const Checkbox = ({ checked, onClick, label }: { checked: boolean; onClick: () =
   </label>
 );
 
+const SEND_EMAIL_URL = "https://functions.poehali.dev/2b3b2d44-fda8-41c3-a62c-55edaa8ce5c9";
+
 const OrderCalculator = () => {
   const [open, setOpen] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
+  const [phone, setPhone] = useState("");
+  const [phoneSent, setPhoneSent] = useState(false);
+  const [phoneSending, setPhoneSending] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    window.addEventListener("open-calculator", handler);
+    return () => window.removeEventListener("open-calculator", handler);
+  }, []);
   const [canType, setCanType] = useState<CanType>("blank");
   const [volume, setVolume] = useState<CanVolume>("330");
   const [quantity, setQuantity] = useState<string>("100000");
@@ -199,9 +210,33 @@ const OrderCalculator = () => {
     };
   };
 
+  const sendPhone = async () => {
+    if (!phone.trim()) return;
+    setPhoneSending(true);
+    try {
+      await fetch(SEND_EMAIL_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          company: "—",
+          contact: "—",
+          email: "—",
+          phone: phone.trim(),
+          volume: result ? `${result.qty.toLocaleString("ru-RU")} шт, ${canType === "litho" ? "литография" : "обезличенная"}, ${volume} мл` : "—",
+          message: "Заявка из калькулятора стоимости",
+        }),
+      });
+      setPhoneSent(true);
+    } finally {
+      setPhoneSending(false);
+    }
+  };
+
   const calculate = () => {
     const qty = parseInt(quantity.replace(/\D/g, "")) || 0;
     if (qty < 100000) return;
+    setPhoneSent(false);
+    setPhone("");
     setResult({
       qty,
       colorCount,
@@ -543,6 +578,42 @@ const OrderCalculator = () => {
                         </span>
                       </a>
                     </div>
+                  </div>
+
+                  {/* Форма — оставьте телефон */}
+                  <div
+                    className="rounded-xl p-4 space-y-3"
+                    style={{ background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.25)" }}
+                  >
+                    {phoneSent ? (
+                      <div className="flex items-center gap-2 py-1">
+                        <Icon name="CheckCircle" size={16} className="text-[var(--gold)] flex-shrink-0" />
+                        <p className="text-sm text-[var(--gold)] font-semibold">Отлично! Мы свяжемся с вами.</p>
+                      </div>
+                    ) : (
+                      <>
+                        <p className="text-[11px] text-[var(--mist)] leading-relaxed">
+                          Оставьте номер телефона — мы перезвоним и согласуем финальную цену
+                        </p>
+                        <div className="flex gap-2">
+                          <input
+                            type="tel"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && sendPhone()}
+                            placeholder="+7 (___) ___-__-__"
+                            className="flex-1 rounded-lg px-3 py-2.5 text-sm bg-black/30 border border-[rgba(201,168,76,0.3)] text-white placeholder:text-muted-foreground focus:outline-none focus:border-[rgba(201,168,76,0.7)]"
+                          />
+                          <button
+                            onClick={sendPhone}
+                            disabled={!phone.trim() || phoneSending}
+                            className="btn-gold px-4 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+                          >
+                            {phoneSending ? "..." : "Отправить"}
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   <p className="text-[9px] text-muted-foreground leading-relaxed">
