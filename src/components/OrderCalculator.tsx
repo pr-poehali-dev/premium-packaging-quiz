@@ -582,19 +582,29 @@ const OrderCalculator = () => {
 
                   {/* Форма — оставьте телефон */}
                   <div
-                    className="rounded-xl p-4 space-y-3"
-                    style={{ background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.25)" }}
+                    className="rounded-xl p-5 space-y-4"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(201,168,76,0.06) 100%)",
+                      border: "1px solid rgba(201,168,76,0.5)",
+                      boxShadow: "0 0 24px rgba(201,168,76,0.08)",
+                    }}
                   >
                     {phoneSent ? (
-                      <div className="flex items-center gap-2 py-1">
-                        <Icon name="CheckCircle" size={16} className="text-[var(--gold)] flex-shrink-0" />
+                      <div className="flex items-center gap-3 py-2">
+                        <Icon name="CheckCircle" size={20} className="text-[var(--gold)] flex-shrink-0" />
                         <p className="text-sm text-[var(--gold)] font-semibold">Отлично! Мы свяжемся с вами.</p>
                       </div>
                     ) : (
                       <>
-                        <p className="text-[11px] text-[var(--mist)] leading-relaxed">
-                          Оставьте номер телефона — мы перезвоним и согласуем финальную цену
-                        </p>
+                        <div className="flex items-start gap-2">
+                          <Icon name="Phone" size={15} className="text-[var(--gold)] flex-shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-sm font-bold text-[var(--gold)] leading-snug">
+                              Оставьте номер — перезвоним и согласуем финальную цену
+                            </p>
+                            <p className="text-[10px] text-[var(--mist)] mt-0.5 opacity-70">Обычно перезваниваем в течение часа</p>
+                          </div>
+                        </div>
                         <div className="flex gap-2">
                           <input
                             type="tel"
@@ -602,12 +612,12 @@ const OrderCalculator = () => {
                             onChange={(e) => setPhone(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && sendPhone()}
                             placeholder="+7 (___) ___-__-__"
-                            className="flex-1 rounded-lg px-3 py-2.5 text-sm bg-black/30 border border-[rgba(201,168,76,0.3)] text-white placeholder:text-muted-foreground focus:outline-none focus:border-[rgba(201,168,76,0.7)]"
+                            className="flex-1 rounded-lg px-3 py-3 text-sm bg-black/40 border border-[rgba(201,168,76,0.4)] text-white placeholder:text-muted-foreground focus:outline-none focus:border-[rgba(201,168,76,0.9)] transition-colors"
                           />
                           <button
                             onClick={sendPhone}
                             disabled={!phone.trim() || phoneSending}
-                            className="btn-gold px-4 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+                            className="btn-gold px-4 py-3 rounded-lg text-xs font-bold uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
                           >
                             {phoneSending ? "..." : "Отправить"}
                           </button>
