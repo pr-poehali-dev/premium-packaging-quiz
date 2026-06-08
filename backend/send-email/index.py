@@ -34,20 +34,23 @@ def handler(event: dict, context) -> dict:
     smtp_host = 'smtp.mail.ru'
     smtp_port = 465
 
+    message_html = message.replace('\n', '<br>')
+
     html = f"""
-    <h2>Новая заявка с сайта</h2>
-    <table style="border-collapse:collapse;width:100%">
+    <h2 style="color:#333">Новая заявка с сайта</h2>
+    <table style="border-collapse:collapse;width:100%;margin-bottom:24px">
+      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Телефон</td><td style="padding:8px;border:1px solid #ddd;font-size:16px;font-weight:bold;color:#c9a84c">{phone}</td></tr>
       <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Компания</td><td style="padding:8px;border:1px solid #ddd">{company}</td></tr>
       <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Контактное лицо</td><td style="padding:8px;border:1px solid #ddd">{contact}</td></tr>
       <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">{email}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Телефон</td><td style="padding:8px;border:1px solid #ddd">{phone}</td></tr>
       <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Объём</td><td style="padding:8px;border:1px solid #ddd">{volume}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Сообщение</td><td style="padding:8px;border:1px solid #ddd">{message}</td></tr>
     </table>
+    <h3 style="color:#c9a84c;border-bottom:2px solid #c9a84c;padding-bottom:6px">Коммерческое предложение</h3>
+    <div style="background:#f9f6ee;border:1px solid #e8d99a;border-radius:6px;padding:16px;font-family:monospace;font-size:13px;line-height:1.7;white-space:pre-wrap">{message_html}</div>
     """
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = f'Новая заявка от {company}'
+    msg['Subject'] = f'Заявка из калькулятора — {phone}'
     msg['From'] = smtp_user
     msg['To'] = smtp_user
     msg.attach(MIMEText(html, 'html'))

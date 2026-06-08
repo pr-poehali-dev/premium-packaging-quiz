@@ -210,6 +210,42 @@ const OrderCalculator = () => {
     };
   };
 
+  const buildKP = (): string => {
+    if (!result) return "—";
+    const fmtNum = (n: number) => n.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " ₽";
+    const canTypeLabel = canType === "litho" ? "Литография (брендированная)" : "Обезличенная (без печати)";
+    const lidLabel: Record<LidColor, string> = { none: "без крышек", silver: "серебро", black: "чёрные", gold: "золото" };
+    const lines: string[] = [];
+    lines.push("=== КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ ===");
+    lines.push("");
+    lines.push(`Тип банки: ${canTypeLabel}`);
+    lines.push(`Объём: ${volume} мл`);
+    lines.push(`Количество: ${result.qty.toLocaleString("ru-RU")} шт`);
+    lines.push(`Крышки: ${lidLabel[lid]}`);
+    if (isLitho) {
+      lines.push(`Матовое покрытие: ${matte ? "да" : "нет"}`);
+      lines.push(`Заведение дизайна: ${withDesign ? `да (${result.colorCount} цветов)` : "нет"}`);
+    }
+    lines.push("");
+
+    (["arnest", "kenpak"] as Factory[]).forEach((f) => {
+      const r = result[f];
+      lines.push(`--- ${FACTORY_NAMES[f]} (${r.city}) ---`);
+      if (!r.available) { lines.push("Недоступно для выбранного объёма"); lines.push(""); return; }
+      if (r.warning) lines.push(`! ${r.warning}`);
+      lines.push(`  Банки: ${fmtNum(r.canPrice)}`);
+      if (r.lidPrice > 0) lines.push(`  Крышки: ${fmtNum(r.lidPrice)}`);
+      if (r.designSetup > 0) lines.push(`  Заведение дизайна: ${fmtNum(r.designSetup)}`);
+      lines.push(`  ИТОГО (с возвратом тары): ${fmtNum(r.total)}`);
+      lines.push(`  ИТОГО (без возврата тары): ${fmtNum(r.totalWithNonReturn)}`);
+      lines.push(`  Цена за банку: ${fmtNum(r.pricePerCan)}`);
+      lines.push("");
+    });
+
+    lines.push("* Предварительный расчёт, без доставки, не оферта.");
+    return lines.join("\n");
+  };
+
   const sendPhone = async () => {
     if (!phone.trim()) return;
     setPhoneSending(true);
@@ -223,7 +259,7 @@ const OrderCalculator = () => {
           email: "—",
           phone: phone.trim(),
           volume: result ? `${result.qty.toLocaleString("ru-RU")} шт, ${canType === "litho" ? "литография" : "обезличенная"}, ${volume} мл` : "—",
-          message: "Заявка из калькулятора стоимости",
+          message: buildKP(),
         }),
       });
       setPhoneSent(true);
