@@ -52,7 +52,7 @@ export const lithoProducts = [
     bestFor: "Пиво, сидр, газированные напитки",
     colors: "До 8 цветов печати",
     icon: "Star",
-    popular: true,
+    popular: false,
     pricing: [
       {
         factory: "АРНЕСТ",
@@ -83,7 +83,7 @@ export const lithoProducts = [
     ] as FactoryPricing[],
   },
   {
-    name: "Литография",
+    name: "Банка с литографией",
     volume: "449 мл",
     height: "168.0 мм",
     diameter: "63.5 мм",
@@ -93,7 +93,7 @@ export const lithoProducts = [
     bestFor: "Пиво, коктейли, лимонады",
     colors: "До 8 цветов печати",
     icon: "Maximize",
-    popular: false,
+    popular: true,
     pricing: [
       {
         factory: "АРНЕСТ",
