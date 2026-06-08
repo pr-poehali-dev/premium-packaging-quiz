@@ -117,7 +117,7 @@ const LithoCard = ({ product }: LithoCardProps) => {
 
       <div className="relative h-64 flex items-center justify-center overflow-hidden bg-gradient-to-b from-[rgba(20,18,14,0.6)] to-[rgba(201,168,76,0.03)]">
         <img
-          src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/86742052-023d-450c-988c-14e5ccf57f11.png"
+          src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/8cf91a2a-fbef-4d93-94f0-d1a25197eda4.png"
           alt="Банка с вашим брендом"
           className="h-full w-full object-cover object-center"
         />
