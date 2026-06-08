@@ -55,6 +55,25 @@ const LidsSection = () => {
           </p>
         </div>
 
+        {/* Три крышки */}
+        <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto mb-14">
+          {[
+            { label: "Чёрная", img: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/0273ed12-3006-490f-9972-97f4bcb95025.jpg", accent: "rgba(255,255,255,0.12)" },
+            { label: "Серебристая", img: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/58696e6f-f083-4145-9c65-1b535dab1841.jpg", accent: "rgba(201,201,201,0.2)" },
+            { label: "Золотая", img: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/7f3dbff4-517b-48e6-9425-b1c231bd1ea7.jpg", accent: "rgba(201,168,76,0.25)" },
+          ].map(({ label, img, accent }) => (
+            <div key={label} className="flex flex-col items-center gap-3">
+              <div
+                className="w-full aspect-square rounded-2xl overflow-hidden"
+                style={{ border: `1px solid ${accent}`, boxShadow: `0 0 20px ${accent}` }}
+              >
+                <img src={img} alt={label} className="w-full h-full object-cover" />
+              </div>
+              <span className="text-xs uppercase tracking-[0.2em] text-[var(--mist)]">{label}</span>
+            </div>
+          ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {lids.map((factory) => (
             <div
