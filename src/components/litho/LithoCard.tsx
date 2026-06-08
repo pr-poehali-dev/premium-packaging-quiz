@@ -115,16 +115,12 @@ const LithoCard = ({ product }: LithoCardProps) => {
         </div>
       )}
 
-      <div className="relative h-56 flex items-center justify-center bg-gradient-to-b from-[rgba(201,168,76,0.05)] to-transparent">
-        <div className="flex flex-col items-center justify-center gap-3">
-          <div className="w-20 h-36 rounded-lg border border-[rgba(201,168,76,0.3)] bg-gradient-to-b from-[rgba(201,168,76,0.08)] to-[rgba(201,168,76,0.02)] flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 flex flex-col">
-              <div className="flex-1 bg-gradient-to-r from-[rgba(201,168,76,0.15)] via-[rgba(232,201,122,0.3)] to-[rgba(201,168,76,0.15)]" />
-            </div>
-            <Icon name={product.icon} size={24} className="text-[var(--gold)] relative z-10 opacity-70" />
-          </div>
-          <span className="text-[9px] uppercase tracking-[0.25em] text-[rgba(201,168,76,0.5)]">Дизайн на заказ</span>
-        </div>
+      <div className="relative h-64 flex items-center justify-center overflow-hidden bg-gradient-to-b from-[rgba(20,18,14,0.6)] to-[rgba(201,168,76,0.03)]">
+        <img
+          src="https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/bucket/629e930b-0c59-4725-8a19-815d1c1d2c7a.png"
+          alt="Банка с вашим брендом"
+          className="h-full w-full object-cover object-center"
+        />
       </div>
 
       <div className="flex items-center justify-center gap-3 pb-3">
