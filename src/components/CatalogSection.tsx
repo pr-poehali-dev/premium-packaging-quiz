@@ -297,13 +297,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="can-card bg-[var(--obsidian)] border border-[rgba(201,168,76,0.15)] rounded-lg overflow-hidden flex flex-col">
       {showPhone && <PhoneModal onClose={() => setShowPhone(false)} />}
-      <div className="relative h-56 flex items-center justify-center">
+      <div className="relative h-80 flex items-center justify-center overflow-hidden bg-[var(--obsidian)]">
         <img
-            src={currentImage}
-            alt={`${product.name} — ${product.colorVariants[activeColor].name}`}
-            className="h-40 md:h-48 w-auto object-contain transition-all duration-500 hover:scale-105"
-            loading="lazy"
-          />
+          src={currentImage}
+          alt={`${product.name} — ${product.colorVariants[activeColor].name}`}
+          className="h-full w-full object-contain transition-all duration-500 hover:scale-105"
+          loading="lazy"
+        />
       </div>
 
       <div className="flex items-center justify-center gap-3 pb-3">

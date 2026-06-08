@@ -107,7 +107,10 @@ const LithoCard = ({ product }: LithoCardProps) => {
   const [showPrices, setShowPrices] = useState(false);
 
   return (
-    <div className="can-card bg-[var(--obsidian)] border border-[rgba(201,168,76,0.15)] rounded-lg overflow-hidden flex flex-col relative">
+    <div className="relative rounded-lg" style={{ padding: "2px" }}>
+      <div className={`rotating-border rounded-lg ${product.borderClass}`} />
+      <div className="rotating-border-inner rounded-lg" />
+      <div className="can-card bg-[var(--obsidian)] rounded-lg overflow-hidden flex flex-col relative" style={{ position: "relative", zIndex: 2 }}>
       {showPhone && <PhoneModal onClose={() => setShowPhone(false)} />}
       {product.popular && (
         <div className="absolute top-3 right-3 z-10 bg-[var(--gold)] text-[var(--obsidian)] text-[9px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-full">
@@ -178,6 +181,7 @@ const LithoCard = ({ product }: LithoCardProps) => {
           Запросить образец
         </button>
       </div>
+    </div>
     </div>
   );
 };
