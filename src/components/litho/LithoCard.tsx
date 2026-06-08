@@ -115,11 +115,11 @@ const LithoCard = ({ product }: LithoCardProps) => {
         </div>
       )}
 
-      <div className="relative h-64 flex items-center justify-center overflow-hidden bg-gradient-to-b from-[rgba(20,18,14,0.6)] to-[rgba(201,168,76,0.03)]">
+      <div className="relative h-80 flex items-center justify-center overflow-hidden bg-[var(--obsidian)]">
         <img
           src={product.image}
           alt="Банка с вашим брендом"
-          className="h-full w-full object-cover object-center"
+          className="h-full w-full object-contain object-center"
         />
       </div>
 
