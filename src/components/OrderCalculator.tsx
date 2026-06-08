@@ -134,6 +134,13 @@ const Checkbox = ({ checked, onClick, label }: { checked: boolean; onClick: () =
 
 const SEND_EMAIL_URL = "https://functions.poehali.dev/2b3b2d44-fda8-41c3-a62c-55edaa8ce5c9";
 
+const getUtmParams = () => {
+  const p = new URLSearchParams(window.location.search);
+  const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+  const found = keys.filter((k) => p.get(k)).map((k) => `${k}=${p.get(k)}`);
+  return found.length ? found.join(", ") : null;
+};
+
 const OrderCalculator = () => {
   const [open, setOpen] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -141,6 +148,7 @@ const OrderCalculator = () => {
   const [phone, setPhone] = useState("");
   const [phoneSent, setPhoneSent] = useState(false);
   const [phoneSending, setPhoneSending] = useState(false);
+  const [utmInfo] = useState<string | null>(() => getUtmParams());
 
   useEffect(() => {
     const handler = () => setOpen(true);
@@ -254,7 +262,7 @@ const OrderCalculator = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          company: "—",
+          company: utmInfo ? `Реклама: ${utmInfo}` : "—",
           contact: "—",
           email: "—",
           phone: phone.trim(),
