@@ -23,6 +23,7 @@ export const lithoProducts = [
     bestFor: "Энергетики, тоники, функциональные напитки",
     colors: "До 8 цветов печати",
     icon: "Zap",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/96db4cb0-ad58-48cb-800f-15599026f570.jpg",
     popular: false,
     pricing: [
       {
@@ -52,6 +53,7 @@ export const lithoProducts = [
     bestFor: "Пиво, сидр, газированные напитки",
     colors: "До 8 цветов печати",
     icon: "Star",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/adb50933-bf34-4d59-9481-20440601574a.jpg",
     popular: false,
     pricing: [
       {
@@ -93,6 +95,7 @@ export const lithoProducts = [
     bestFor: "Пиво, коктейли, лимонады",
     colors: "До 8 цветов печати",
     icon: "Maximize",
+    image: "https://cdn.poehali.dev/projects/c29c3c15-8a3c-4d61-959d-3782d069fcee/files/8cc0f281-285c-4296-ba12-4053a36e663f.jpg",
     popular: true,
     pricing: [
       {
