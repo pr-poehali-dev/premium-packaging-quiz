@@ -10,7 +10,7 @@ const ContactSection = () => {
           </span>
           <div className="gold-line w-16 mx-auto mb-8" />
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-gold-gradient leading-tight mb-6">
-            НАЧНИТЕ СВОЙ ПРОЕКТ
+            ПОЛУЧИТЕ ИНДИВИДУАЛЬНОЕ ЦЕНОВОЕ ПРЕДЛОЖЕНИЕ И НАЧНИТЕ СВОЙ ПРОЕКТ
           </h2>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
             Позвоните нам — обсудим ваш заказ и подберём условия
